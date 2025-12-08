@@ -1,0 +1,15 @@
+[2025-12-08T16:55:48.179+0000] {taskinstance.py:1157} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: etl_reddit_pipeline.s3_upload scheduled__2025-12-07T00:00:00+00:00 [queued]>
+[2025-12-08T16:55:48.195+0000] {taskinstance.py:1157} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: etl_reddit_pipeline.s3_upload scheduled__2025-12-07T00:00:00+00:00 [queued]>
+[2025-12-08T16:55:48.196+0000] {taskinstance.py:1359} INFO - Starting attempt 1 of 3
+[2025-12-08T16:55:48.213+0000] {taskinstance.py:1380} INFO - Executing <Task(PythonOperator): s3_upload> on 2025-12-07 00:00:00+00:00
+[2025-12-08T16:55:48.228+0000] {standard_task_runner.py:57} INFO - Started process 67 to run task
+[2025-12-08T16:55:48.234+0000] {standard_task_runner.py:84} INFO - Running: ['airflow', 'tasks', 'run', 'etl_reddit_pipeline', 's3_upload', 'scheduled__2025-12-07T00:00:00+00:00', '--job-id', '5', '--raw', '--subdir', 'DAGS_FOLDER/redditdag.py', '--cfg-path', '/tmp/tmp_wtlvm4e']
+[2025-12-08T16:55:48.239+0000] {standard_task_runner.py:85} INFO - Job 5: Subtask s3_upload
+[2025-12-08T16:55:48.299+0000] {task_command.py:415} INFO - Running <TaskInstance: etl_reddit_pipeline.s3_upload scheduled__2025-12-07T00:00:00+00:00 [running]> on host e34baf0792d7
+[2025-12-08T16:55:48.398+0000] {taskinstance.py:1660} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='Sayuj Chapagain' AIRFLOW_CTX_DAG_ID='etl_reddit_pipeline' AIRFLOW_CTX_TASK_ID='s3_upload' AIRFLOW_CTX_EXECUTION_DATE='2025-12-07T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2025-12-07T00:00:00+00:00'
+[2025-12-08T16:55:51.438+0000] {logging_mixin.py:151} INFO - Bucket already exists
+[2025-12-08T16:55:52.253+0000] {logging_mixin.py:151} INFO - File uploaded to s3
+[2025-12-08T16:55:52.254+0000] {python.py:194} INFO - Done. Returned value was: None
+[2025-12-08T16:55:52.270+0000] {taskinstance.py:1398} INFO - Marking task as SUCCESS. dag_id=etl_reddit_pipeline, task_id=s3_upload, execution_date=20251207T000000, start_date=20251208T165548, end_date=20251208T165552
+[2025-12-08T16:55:52.349+0000] {local_task_job_runner.py:228} INFO - Task exited with return code 0
+[2025-12-08T16:55:52.393+0000] {taskinstance.py:2776} INFO - 1 downstream tasks scheduled from follow-on schedule check

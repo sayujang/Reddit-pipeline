@@ -1,0 +1,15 @@
+[2025-12-08T16:55:48.074+0000] {taskinstance.py:1157} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: etl_reddit_pipeline.s3_upload manual__2025-12-08T16:55:31.078907+00:00 [queued]>
+[2025-12-08T16:55:48.083+0000] {taskinstance.py:1157} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: etl_reddit_pipeline.s3_upload manual__2025-12-08T16:55:31.078907+00:00 [queued]>
+[2025-12-08T16:55:48.083+0000] {taskinstance.py:1359} INFO - Starting attempt 1 of 3
+[2025-12-08T16:55:48.097+0000] {taskinstance.py:1380} INFO - Executing <Task(PythonOperator): s3_upload> on 2025-12-08 16:55:31.078907+00:00
+[2025-12-08T16:55:48.112+0000] {standard_task_runner.py:57} INFO - Started process 66 to run task
+[2025-12-08T16:55:48.118+0000] {standard_task_runner.py:84} INFO - Running: ['airflow', 'tasks', 'run', 'etl_reddit_pipeline', 's3_upload', 'manual__2025-12-08T16:55:31.078907+00:00', '--job-id', '4', '--raw', '--subdir', 'DAGS_FOLDER/redditdag.py', '--cfg-path', '/tmp/tmpbe1snut8']
+[2025-12-08T16:55:48.123+0000] {standard_task_runner.py:85} INFO - Job 4: Subtask s3_upload
+[2025-12-08T16:55:48.203+0000] {task_command.py:415} INFO - Running <TaskInstance: etl_reddit_pipeline.s3_upload manual__2025-12-08T16:55:31.078907+00:00 [running]> on host e34baf0792d7
+[2025-12-08T16:55:48.289+0000] {taskinstance.py:1660} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='Sayuj Chapagain' AIRFLOW_CTX_DAG_ID='etl_reddit_pipeline' AIRFLOW_CTX_TASK_ID='s3_upload' AIRFLOW_CTX_EXECUTION_DATE='2025-12-08T16:55:31.078907+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2025-12-08T16:55:31.078907+00:00'
+[2025-12-08T16:55:51.439+0000] {logging_mixin.py:151} INFO - Bucket already exists
+[2025-12-08T16:55:53.692+0000] {logging_mixin.py:151} INFO - File uploaded to s3
+[2025-12-08T16:55:53.693+0000] {python.py:194} INFO - Done. Returned value was: None
+[2025-12-08T16:55:53.704+0000] {taskinstance.py:1398} INFO - Marking task as SUCCESS. dag_id=etl_reddit_pipeline, task_id=s3_upload, execution_date=20251208T165531, start_date=20251208T165548, end_date=20251208T165553
+[2025-12-08T16:55:53.744+0000] {local_task_job_runner.py:228} INFO - Task exited with return code 0
+[2025-12-08T16:55:53.771+0000] {taskinstance.py:2776} INFO - 1 downstream tasks scheduled from follow-on schedule check

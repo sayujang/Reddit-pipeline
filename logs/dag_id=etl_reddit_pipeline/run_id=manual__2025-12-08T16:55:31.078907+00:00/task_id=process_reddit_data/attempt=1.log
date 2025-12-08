@@ -1,0 +1,36 @@
+[2025-12-08T16:55:59.390+0000] {taskinstance.py:1157} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: etl_reddit_pipeline.process_reddit_data manual__2025-12-08T16:55:31.078907+00:00 [queued]>
+[2025-12-08T16:55:59.400+0000] {taskinstance.py:1157} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: etl_reddit_pipeline.process_reddit_data manual__2025-12-08T16:55:31.078907+00:00 [queued]>
+[2025-12-08T16:55:59.401+0000] {taskinstance.py:1359} INFO - Starting attempt 1 of 3
+[2025-12-08T16:55:59.414+0000] {taskinstance.py:1380} INFO - Executing <Task(PythonOperator): process_reddit_data> on 2025-12-08 16:55:31.078907+00:00
+[2025-12-08T16:55:59.427+0000] {standard_task_runner.py:57} INFO - Started process 77 to run task
+[2025-12-08T16:55:59.433+0000] {standard_task_runner.py:84} INFO - Running: ['airflow', 'tasks', 'run', 'etl_reddit_pipeline', 'process_reddit_data', 'manual__2025-12-08T16:55:31.078907+00:00', '--job-id', '7', '--raw', '--subdir', 'DAGS_FOLDER/redditdag.py', '--cfg-path', '/tmp/tmp_xabnau4']
+[2025-12-08T16:55:59.437+0000] {standard_task_runner.py:85} INFO - Job 7: Subtask process_reddit_data
+[2025-12-08T16:55:59.492+0000] {task_command.py:415} INFO - Running <TaskInstance: etl_reddit_pipeline.process_reddit_data manual__2025-12-08T16:55:31.078907+00:00 [running]> on host e34baf0792d7
+[2025-12-08T16:55:59.600+0000] {taskinstance.py:1660} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='Sayuj Chapagain' AIRFLOW_CTX_DAG_ID='etl_reddit_pipeline' AIRFLOW_CTX_TASK_ID='process_reddit_data' AIRFLOW_CTX_EXECUTION_DATE='2025-12-08T16:55:31.078907+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2025-12-08T16:55:31.078907+00:00'
+[2025-12-08T16:55:59.602+0000] {reddit_processing_pipeline.py:235} INFO - ==================================================
+[2025-12-08T16:55:59.603+0000] {reddit_processing_pipeline.py:236} INFO - STEP 1: Downloading raw data from S3
+[2025-12-08T16:55:59.603+0000] {reddit_processing_pipeline.py:237} INFO - ==================================================
+[2025-12-08T16:55:59.702+0000] {reddit_processing_pipeline.py:39} INFO - Downloading raw/reddit_20251208.csv from bucket reddit-s3
+[2025-12-08T16:56:00.467+0000] {reddit_processing_pipeline.py:45} INFO - Successfully loaded 59 records from S3
+[2025-12-08T16:56:00.470+0000] {reddit_processing_pipeline.py:241} INFO - ==================================================
+[2025-12-08T16:56:00.470+0000] {reddit_processing_pipeline.py:242} INFO - STEP 2: Cleaning data
+[2025-12-08T16:56:00.471+0000] {reddit_processing_pipeline.py:243} INFO - ==================================================
+[2025-12-08T16:56:00.471+0000] {reddit_processing_pipeline.py:55} INFO - Starting data cleaning...
+[2025-12-08T16:56:00.473+0000] {reddit_processing_pipeline.py:60} INFO - Removed 0 duplicate records
+[2025-12-08T16:56:00.477+0000] {reddit_processing_pipeline.py:75} INFO - Cleaned data: 59 records remaining
+[2025-12-08T16:56:00.477+0000] {reddit_processing_pipeline.py:247} INFO - ==================================================
+[2025-12-08T16:56:00.477+0000] {reddit_processing_pipeline.py:248} INFO - STEP 3: Performing sentiment analysis
+[2025-12-08T16:56:00.477+0000] {reddit_processing_pipeline.py:249} INFO - ==================================================
+[2025-12-08T16:56:00.478+0000] {reddit_processing_pipeline.py:87} INFO - Initializing sentiment analysis model...
+[2025-12-08T16:57:30.260+0000] {local_task_job_runner.py:294} WARNING - State of this instance has been externally set to failed. Terminating instance.
+[2025-12-08T16:57:30.265+0000] {process_utils.py:131} INFO - Sending 15 to group 77. PIDs of all processes in the group: [77]
+[2025-12-08T16:57:30.266+0000] {process_utils.py:86} INFO - Sending the signal 15 to group 77
+[2025-12-08T16:57:30.267+0000] {taskinstance.py:1630} ERROR - Received SIGTERM. Terminating subprocesses.
+[2025-12-08T16:57:56.634+0000] {log.py:232} WARNING - Falling back to torch.float32 because loading with the original dtype failed on the target device.
+[2025-12-08T16:58:00.489+0000] {log.py:232} WARNING - Device set to use cpu
+[2025-12-08T16:58:00.490+0000] {reddit_processing_pipeline.py:98} INFO - Running sentiment analysis on 59 records...
+[2025-12-08T16:58:19.340+0000] {reddit_processing_pipeline.py:144} INFO - Processed batch 5/15
+[2025-12-08T16:58:30.285+0000] {process_utils.py:149} WARNING - process psutil.Process(pid=77, name='airflow task ru', status='running', started='16:55:59') did not respond to SIGTERM. Trying SIGKILL
+[2025-12-08T16:58:30.293+0000] {process_utils.py:86} INFO - Sending the signal 9 to group 77
+[2025-12-08T16:58:30.393+0000] {process_utils.py:79} INFO - Process psutil.Process(pid=77, name='airflow task ru', status='terminated', exitcode=<Negsignal.SIGKILL: -9>, started='16:55:59') (77) terminated with exit code -9
+[2025-12-08T16:58:30.402+0000] {standard_task_runner.py:172} ERROR - Job 7 was killed before it finished (likely due to running out of memory)

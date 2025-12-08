@@ -1,0 +1,67 @@
+[2025-12-08T10:53:23.715+0000] {taskinstance.py:1157} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: etl_reddit_pipeline.process_reddit_data manual__2025-12-08T10:52:57.021114+00:00 [queued]>
+[2025-12-08T10:53:23.722+0000] {taskinstance.py:1157} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: etl_reddit_pipeline.process_reddit_data manual__2025-12-08T10:52:57.021114+00:00 [queued]>
+[2025-12-08T10:53:23.722+0000] {taskinstance.py:1359} INFO - Starting attempt 1 of 3
+[2025-12-08T10:53:23.730+0000] {taskinstance.py:1380} INFO - Executing <Task(PythonOperator): process_reddit_data> on 2025-12-08 10:52:57.021114+00:00
+[2025-12-08T10:53:23.742+0000] {standard_task_runner.py:57} INFO - Started process 66 to run task
+[2025-12-08T10:53:23.746+0000] {standard_task_runner.py:84} INFO - Running: ['airflow', 'tasks', 'run', 'etl_reddit_pipeline', 'process_reddit_data', 'manual__2025-12-08T10:52:57.021114+00:00', '--job-id', '43', '--raw', '--subdir', 'DAGS_FOLDER/redditdag.py', '--cfg-path', '/tmp/tmp8hzi4pzq']
+[2025-12-08T10:53:23.749+0000] {standard_task_runner.py:85} INFO - Job 43: Subtask process_reddit_data
+[2025-12-08T10:53:23.786+0000] {task_command.py:415} INFO - Running <TaskInstance: etl_reddit_pipeline.process_reddit_data manual__2025-12-08T10:52:57.021114+00:00 [running]> on host 0107a6f58c60
+[2025-12-08T10:53:23.838+0000] {taskinstance.py:1660} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='Sayuj Chapagain' AIRFLOW_CTX_DAG_ID='etl_reddit_pipeline' AIRFLOW_CTX_TASK_ID='process_reddit_data' AIRFLOW_CTX_EXECUTION_DATE='2025-12-08T10:52:57.021114+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2025-12-08T10:52:57.021114+00:00'
+[2025-12-08T10:53:23.839+0000] {reddit_processing_pipeline.py:218} INFO - ==================================================
+[2025-12-08T10:53:23.840+0000] {reddit_processing_pipeline.py:219} INFO - STEP 1: Downloading raw data from S3
+[2025-12-08T10:53:23.840+0000] {reddit_processing_pipeline.py:220} INFO - ==================================================
+[2025-12-08T10:53:25.980+0000] {reddit_processing_pipeline.py:21} INFO - Downloading raw/reddit_20251208.csv from bucket your-bucket-name
+[2025-12-08T10:53:25.983+0000] {reddit_processing_pipeline.py:31} ERROR - Error downloading from S3: Unable to locate credentials
+[2025-12-08T10:53:25.983+0000] {reddit_processing_pipeline.py:254} ERROR - Pipeline failed: Unable to locate credentials
+[2025-12-08T10:53:25.984+0000] {taskinstance.py:1935} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/operators/python.py", line 192, in execute
+    return_value = self.execute_callable()
+                   ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/operators/python.py", line 209, in execute_callable
+    return self.python_callable(*self.op_args, **self.op_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/airflow/pipelines/reddit_processing_pipeline.py", line 221, in reddit_processing_pipeline
+    df = download_from_s3(bucket_name, raw_file_key)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/airflow/pipelines/reddit_processing_pipeline.py", line 22, in download_from_s3
+    response = s3_client.get_object(Bucket=bucket_name, Key=file_key)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/botocore/client.py", line 535, in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/botocore/client.py", line 963, in _make_api_call
+    http, parsed_response = self._make_request(
+                            ^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/botocore/client.py", line 986, in _make_request
+    return self._endpoint.make_request(operation_model, request_dict)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/botocore/endpoint.py", line 119, in make_request
+    return self._send_request(request_dict, operation_model)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/botocore/endpoint.py", line 198, in _send_request
+    request = self.create_request(request_dict, operation_model)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/botocore/endpoint.py", line 134, in create_request
+    self._event_emitter.emit(
+  File "/home/airflow/.local/lib/python3.11/site-packages/botocore/hooks.py", line 412, in emit
+    return self._emitter.emit(aliased_event_name, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/botocore/hooks.py", line 256, in emit
+    return self._emit(event_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/botocore/hooks.py", line 239, in _emit
+    response = handler(**kwargs)
+               ^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/botocore/signers.py", line 105, in handler
+    return self.sign(operation_name, request)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/botocore/signers.py", line 189, in sign
+    auth.add_auth(request)
+  File "/home/airflow/.local/lib/python3.11/site-packages/botocore/auth.py", line 418, in add_auth
+    raise NoCredentialsError()
+botocore.exceptions.NoCredentialsError: Unable to locate credentials
+[2025-12-08T10:53:25.992+0000] {taskinstance.py:1398} INFO - Marking task as UP_FOR_RETRY. dag_id=etl_reddit_pipeline, task_id=process_reddit_data, execution_date=20251208T105257, start_date=20251208T105323, end_date=20251208T105325
+[2025-12-08T10:53:26.001+0000] {standard_task_runner.py:104} ERROR - Failed to execute job 43 for task process_reddit_data (Unable to locate credentials; 66)
+[2025-12-08T10:53:26.015+0000] {local_task_job_runner.py:228} INFO - Task exited with return code 1
+[2025-12-08T10:53:26.027+0000] {taskinstance.py:2776} INFO - 0 downstream tasks scheduled from follow-on schedule check

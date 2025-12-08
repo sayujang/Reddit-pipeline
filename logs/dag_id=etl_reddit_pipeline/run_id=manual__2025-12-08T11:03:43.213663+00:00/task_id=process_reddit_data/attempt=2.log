@@ -1,0 +1,48 @@
+[2025-12-08T11:19:47.880+0000] {taskinstance.py:1157} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: etl_reddit_pipeline.process_reddit_data manual__2025-12-08T11:03:43.213663+00:00 [queued]>
+[2025-12-08T11:19:47.886+0000] {taskinstance.py:1157} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: etl_reddit_pipeline.process_reddit_data manual__2025-12-08T11:03:43.213663+00:00 [queued]>
+[2025-12-08T11:19:47.886+0000] {taskinstance.py:1359} INFO - Starting attempt 2 of 3
+[2025-12-08T11:19:47.896+0000] {taskinstance.py:1380} INFO - Executing <Task(PythonOperator): process_reddit_data> on 2025-12-08 11:03:43.213663+00:00
+[2025-12-08T11:19:47.902+0000] {standard_task_runner.py:57} INFO - Started process 139 to run task
+[2025-12-08T11:19:47.905+0000] {standard_task_runner.py:84} INFO - Running: ['airflow', 'tasks', 'run', 'etl_reddit_pipeline', 'process_reddit_data', 'manual__2025-12-08T11:03:43.213663+00:00', '--job-id', '54', '--raw', '--subdir', 'DAGS_FOLDER/redditdag.py', '--cfg-path', '/tmp/tmp6dwf2r_v']
+[2025-12-08T11:19:47.908+0000] {standard_task_runner.py:85} INFO - Job 54: Subtask process_reddit_data
+[2025-12-08T11:19:47.947+0000] {task_command.py:415} INFO - Running <TaskInstance: etl_reddit_pipeline.process_reddit_data manual__2025-12-08T11:03:43.213663+00:00 [running]> on host e0fac44417fa
+[2025-12-08T11:19:48.012+0000] {taskinstance.py:1660} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='Sayuj Chapagain' AIRFLOW_CTX_DAG_ID='etl_reddit_pipeline' AIRFLOW_CTX_TASK_ID='process_reddit_data' AIRFLOW_CTX_EXECUTION_DATE='2025-12-08T11:03:43.213663+00:00' AIRFLOW_CTX_TRY_NUMBER='2' AIRFLOW_CTX_DAG_RUN_ID='manual__2025-12-08T11:03:43.213663+00:00'
+[2025-12-08T11:19:48.014+0000] {reddit_processing_pipeline.py:234} INFO - ==================================================
+[2025-12-08T11:19:48.014+0000] {reddit_processing_pipeline.py:235} INFO - STEP 1: Downloading raw data from S3
+[2025-12-08T11:19:48.014+0000] {reddit_processing_pipeline.py:236} INFO - ==================================================
+[2025-12-08T11:19:48.128+0000] {reddit_processing_pipeline.py:39} INFO - Downloading raw/reddit_20251208.csv from bucket reddit-s3
+[2025-12-08T11:19:49.034+0000] {reddit_processing_pipeline.py:45} INFO - Successfully loaded 3 records from S3
+[2025-12-08T11:19:49.047+0000] {reddit_processing_pipeline.py:240} INFO - ==================================================
+[2025-12-08T11:19:49.048+0000] {reddit_processing_pipeline.py:241} INFO - STEP 2: Cleaning data
+[2025-12-08T11:19:49.048+0000] {reddit_processing_pipeline.py:242} INFO - ==================================================
+[2025-12-08T11:19:49.049+0000] {reddit_processing_pipeline.py:55} INFO - Starting data cleaning...
+[2025-12-08T11:19:49.050+0000] {reddit_processing_pipeline.py:60} INFO - Removed 0 duplicate records
+[2025-12-08T11:19:49.053+0000] {reddit_processing_pipeline.py:71} INFO - Cleaned data: 3 records remaining
+[2025-12-08T11:19:49.053+0000] {reddit_processing_pipeline.py:246} INFO - ==================================================
+[2025-12-08T11:19:49.053+0000] {reddit_processing_pipeline.py:247} INFO - STEP 3: Performing sentiment analysis
+[2025-12-08T11:19:49.053+0000] {reddit_processing_pipeline.py:248} INFO - ==================================================
+[2025-12-08T11:19:49.053+0000] {reddit_processing_pipeline.py:84} INFO - Running lightweight sentiment analysis...
+[2025-12-08T11:19:49.053+0000] {reddit_processing_pipeline.py:118} INFO - Analyzing sentiment for 3 records...
+[2025-12-08T11:19:49.054+0000] {reddit_processing_pipeline.py:155} INFO - Sentiment analysis completed!
+[2025-12-08T11:19:49.056+0000] {reddit_processing_pipeline.py:156} INFO - Sentiment distribution:
+sentiment
+NEUTRAL    3
+Name: count, dtype: int64
+[2025-12-08T11:19:49.056+0000] {reddit_processing_pipeline.py:252} INFO - ==================================================
+[2025-12-08T11:19:49.056+0000] {reddit_processing_pipeline.py:253} INFO - STEP 4: Saving to S3
+[2025-12-08T11:19:49.056+0000] {reddit_processing_pipeline.py:254} INFO - ==================================================
+[2025-12-08T11:19:49.063+0000] {reddit_processing_pipeline.py:176} INFO - Uploading processed data to S3: processed/reddit_20251208_processed.csv
+[2025-12-08T11:19:50.132+0000] {reddit_processing_pipeline.py:183} INFO - Successfully uploaded processed data to S3
+[2025-12-08T11:19:50.135+0000] {reddit_processing_pipeline.py:258} INFO - ==================================================
+[2025-12-08T11:19:50.137+0000] {reddit_processing_pipeline.py:259} INFO - STEP 5: Saving to Postgres
+[2025-12-08T11:19:50.138+0000] {reddit_processing_pipeline.py:260} INFO - ==================================================
+[2025-12-08T11:19:50.138+0000] {reddit_processing_pipeline.py:204} INFO - Connecting to Postgres database...
+[2025-12-08T11:19:50.140+0000] {reddit_processing_pipeline.py:211} INFO - Saving 3 records to Postgres table 'reddit_sentiment'
+[2025-12-08T11:19:50.201+0000] {reddit_processing_pipeline.py:214} INFO - Successfully saved to Postgres!
+[2025-12-08T11:19:50.201+0000] {reddit_processing_pipeline.py:263} INFO - ==================================================
+[2025-12-08T11:19:50.202+0000] {reddit_processing_pipeline.py:264} INFO - PIPELINE COMPLETED SUCCESSFULLY!
+[2025-12-08T11:19:50.202+0000] {reddit_processing_pipeline.py:265} INFO - ==================================================
+[2025-12-08T11:19:50.203+0000] {python.py:194} INFO - Done. Returned value was: Processed 3 records
+[2025-12-08T11:19:50.234+0000] {taskinstance.py:1398} INFO - Marking task as SUCCESS. dag_id=etl_reddit_pipeline, task_id=process_reddit_data, execution_date=20251208T110343, start_date=20251208T111947, end_date=20251208T111950
+[2025-12-08T11:19:50.270+0000] {local_task_job_runner.py:228} INFO - Task exited with return code 0
+[2025-12-08T11:19:50.287+0000] {taskinstance.py:2776} INFO - 0 downstream tasks scheduled from follow-on schedule check
