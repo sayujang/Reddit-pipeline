@@ -11,3 +11,4 @@ streamlit>=1.28.0
 plotly>=5.17.0
 SQLAlchemy>=1.4.0
 apache-airflow-providers-amazon
+textblob>=0.17.1
