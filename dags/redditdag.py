@@ -19,7 +19,9 @@ default_args = {
     'retries': 2,  # Retry failed tasks
     'retry_delay': timedelta(minutes=5)
 }
-file_postfix = datetime.now().strftime("%Y%m%d")
+
+# REMOVED: file_postfix = datetime.now().strftime("%Y%m%d")
+# This caused issues because it's evaluated at DAG parse time, not execution time
 
 # dag definition
 dag = DAG(
@@ -27,7 +29,9 @@ dag = DAG(
     default_args=default_args,
     schedule_interval="@daily",
     catchup=False,
-    tags=['reddit', 'etl', 'pipeline']
+    tags=['reddit', 'etl', 'pipeline'],
+    dagrun_timeout=timedelta(hours=2),  # Added: Prevent hung DAG runs
+    max_active_runs=3  # Added: Reasonable concurrency limit
 )
 
 # extraction task by calling reddit_pipeline function
@@ -35,11 +39,12 @@ extract = PythonOperator(
     task_id='reddit_extraction',
     python_callable=reddit_pipeline,
     op_kwargs={
-        'file_name': f'reddit_{file_postfix}',
+        'file_name': 'reddit_{{ ds_nodash }}',  # FIXED: Uses Airflow template (e.g., reddit_20251209)
         'subreddit': 'Nepal',
         'time_filter': 'day',  # fetches from last day
-        'limit': 100
+        'limit': 1000  # INCREASED: From 100 to 1000 to capture more posts
     },
+    execution_timeout=timedelta(minutes=15),  # Added: Timeout for extraction task
     dag=dag
 )
 
@@ -47,6 +52,7 @@ extract = PythonOperator(
 upload_s3 = PythonOperator(
     task_id="s3_upload",
     python_callable=upload_s3_pipeline,
+    execution_timeout=timedelta(minutes=10),  # Added: Timeout for upload task
     dag=dag
 )
 
@@ -55,10 +61,10 @@ process_data = PythonOperator(
     task_id='process_reddit_data',
     python_callable=reddit_processing_pipeline,
     op_kwargs={
-        'file_name': f'reddit_{file_postfix}',
-        'bucket_name': AWS_BUCKET_NAME  # FIXED: Use actual bucket name from constants
+        'file_name': 'reddit_{{ ds_nodash }}',  # FIXED: Uses Airflow template to match extraction file
+        'bucket_name': AWS_BUCKET_NAME
     },
-    execution_timeout=timedelta(minutes=30),  # Added timeout
+    execution_timeout=timedelta(minutes=30),
     dag=dag
 )
 

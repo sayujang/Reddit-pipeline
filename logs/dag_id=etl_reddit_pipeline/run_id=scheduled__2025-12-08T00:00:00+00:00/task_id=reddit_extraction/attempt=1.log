@@ -14,3 +14,155 @@
 [2025-12-09T00:00:06.763+0000] {taskinstance.py:1398} INFO - Marking task as SUCCESS. dag_id=etl_reddit_pipeline, task_id=reddit_extraction, execution_date=20251208T000000, start_date=20251209T000003, end_date=20251209T000006
 [2025-12-09T00:00:06.812+0000] {local_task_job_runner.py:228} INFO - Task exited with return code 0
 [2025-12-09T00:00:06.841+0000] {taskinstance.py:2776} INFO - 1 downstream tasks scheduled from follow-on schedule check
+[2025-12-09T18:34:49.222+0000] {logging_mixin.py:151} INFO - Changing /opt/airflow/logs/dag_id=etl_reddit_pipeline/run_id=scheduled__2025-12-08T00:00:00+00:00/task_id=reddit_extraction permission to 509
+[2025-12-09T18:34:49.223+0000] {logging_mixin.py:151} INFO - Failed to change /opt/airflow/logs/dag_id=etl_reddit_pipeline/run_id=scheduled__2025-12-08T00:00:00+00:00/task_id=reddit_extraction permission to 509: [Errno 1] Operation not permitted: '/opt/airflow/logs/dag_id=etl_reddit_pipeline/run_id=scheduled__2025-12-08T00:00:00+00:00/task_id=reddit_extraction'
+[2025-12-09T18:34:49.256+0000] {logging_mixin.py:151} INFO - Changing /opt/airflow/logs/dag_id=etl_reddit_pipeline/run_id=scheduled__2025-12-08T00:00:00+00:00/task_id=reddit_extraction permission to 509
+[2025-12-09T18:34:49.256+0000] {logging_mixin.py:151} INFO - Failed to change /opt/airflow/logs/dag_id=etl_reddit_pipeline/run_id=scheduled__2025-12-08T00:00:00+00:00/task_id=reddit_extraction permission to 509: [Errno 1] Operation not permitted: '/opt/airflow/logs/dag_id=etl_reddit_pipeline/run_id=scheduled__2025-12-08T00:00:00+00:00/task_id=reddit_extraction'
+[2025-12-09T18:34:49.297+0000] {taskinstance.py:1157} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: etl_reddit_pipeline.reddit_extraction scheduled__2025-12-08T00:00:00+00:00 [queued]>
+[2025-12-09T18:34:49.306+0000] {taskinstance.py:1157} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: etl_reddit_pipeline.reddit_extraction scheduled__2025-12-08T00:00:00+00:00 [queued]>
+[2025-12-09T18:34:49.306+0000] {taskinstance.py:1359} INFO - Starting attempt 1 of 3
+[2025-12-09T18:34:49.315+0000] {taskinstance.py:1380} INFO - Executing <Task(PythonOperator): reddit_extraction> on 2025-12-08 00:00:00+00:00
+[2025-12-09T18:34:49.335+0000] {standard_task_runner.py:57} INFO - Started process 58 to run task
+[2025-12-09T18:34:49.341+0000] {standard_task_runner.py:84} INFO - Running: ['airflow', 'tasks', 'run', 'etl_reddit_pipeline', 'reddit_extraction', 'scheduled__2025-12-08T00:00:00+00:00', '--job-id', '2', '--raw', '--subdir', 'DAGS_FOLDER/redditdag.py', '--cfg-path', '/tmp/tmpmo1yxmpd']
+[2025-12-09T18:34:49.348+0000] {standard_task_runner.py:85} INFO - Job 2: Subtask reddit_extraction
+[2025-12-09T18:34:49.420+0000] {logging_mixin.py:151} INFO - Changing /opt/airflow/logs/dag_id=etl_reddit_pipeline/run_id=scheduled__2025-12-08T00:00:00+00:00/task_id=reddit_extraction permission to 509
+[2025-12-09T18:34:49.420+0000] {logging_mixin.py:151} INFO - Failed to change /opt/airflow/logs/dag_id=etl_reddit_pipeline/run_id=scheduled__2025-12-08T00:00:00+00:00/task_id=reddit_extraction permission to 509: [Errno 1] Operation not permitted: '/opt/airflow/logs/dag_id=etl_reddit_pipeline/run_id=scheduled__2025-12-08T00:00:00+00:00/task_id=reddit_extraction'
+[2025-12-09T18:34:49.422+0000] {task_command.py:415} INFO - Running <TaskInstance: etl_reddit_pipeline.reddit_extraction scheduled__2025-12-08T00:00:00+00:00 [running]> on host 3c5390063deb
+[2025-12-09T18:34:49.521+0000] {taskinstance.py:1660} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='Sayuj Chapagain' AIRFLOW_CTX_DAG_ID='etl_reddit_pipeline' AIRFLOW_CTX_TASK_ID='reddit_extraction' AIRFLOW_CTX_EXECUTION_DATE='2025-12-08T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2025-12-08T00:00:00+00:00'
+[2025-12-09T18:34:49.716+0000] {logging_mixin.py:151} WARNING - Version 7.7.1 of praw is outdated. Version 7.8.1 was released Friday October 25, 2024.
+[2025-12-09T18:34:49.717+0000] {logging_mixin.py:151} INFO - connected to reddit!
+[2025-12-09T18:34:49.718+0000] {logging_mixin.py:151} INFO - <praw.models.listing.generator.ListingGenerator object at 0x7f9fe368fe10>
+[2025-12-09T18:34:50.080+0000] {taskinstance.py:1935} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/operators/python.py", line 192, in execute
+    return_value = self.execute_callable()
+                   ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/operators/python.py", line 209, in execute_callable
+    return self.python_callable(*self.op_args, **self.op_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/airflow/pipelines/reddit_pipeline.py", line 8, in reddit_pipeline
+    posts=extract_posts(instance, subreddit, time_filter, limit)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/airflow/etls/reddit_etl.py", line 30, in extract_posts
+    for post in posts:
+  File "/home/airflow/.local/lib/python3.11/site-packages/praw/models/listing/generator.py", line 63, in __next__
+    self._next_batch()
+  File "/home/airflow/.local/lib/python3.11/site-packages/praw/models/listing/generator.py", line 89, in _next_batch
+    self._listing = self._reddit.get(self.url, params=self.params)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/praw/util/deprecate_args.py", line 43, in wrapped
+    return func(**dict(zip(_old_args, args)), **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/praw/reddit.py", line 712, in get
+    return self._objectify_request(method="GET", params=params, path=path)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/praw/reddit.py", line 517, in _objectify_request
+    self.request(
+  File "/home/airflow/.local/lib/python3.11/site-packages/praw/util/deprecate_args.py", line 43, in wrapped
+    return func(**dict(zip(_old_args, args)), **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/praw/reddit.py", line 941, in request
+    return self._core.request(
+           ^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/prawcore/sessions.py", line 328, in request
+    return self._request_with_retries(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/prawcore/sessions.py", line 234, in _request_with_retries
+    response, saved_exception = self._make_request(
+                                ^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/prawcore/sessions.py", line 186, in _make_request
+    response = self._rate_limiter.call(
+               ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/prawcore/rate_limit.py", line 46, in call
+    kwargs["headers"] = set_header_callback()
+                        ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/prawcore/sessions.py", line 282, in _set_header_callback
+    self._authorizer.refresh()
+  File "/home/airflow/.local/lib/python3.11/site-packages/prawcore/auth.py", line 473, in refresh
+    self._request_token(
+  File "/home/airflow/.local/lib/python3.11/site-packages/prawcore/auth.py", line 155, in _request_token
+    response = self._authenticator._post(url=url, **data)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/prawcore/auth.py", line 59, in _post
+    raise ResponseException(response)
+prawcore.exceptions.ResponseException: received 401 HTTP response
+[2025-12-09T18:34:50.095+0000] {taskinstance.py:1398} INFO - Marking task as UP_FOR_RETRY. dag_id=etl_reddit_pipeline, task_id=reddit_extraction, execution_date=20251208T000000, start_date=20251209T183449, end_date=20251209T183450
+[2025-12-09T18:34:50.106+0000] {standard_task_runner.py:104} ERROR - Failed to execute job 2 for task reddit_extraction (received 401 HTTP response; 58)
+[2025-12-09T18:34:50.155+0000] {local_task_job_runner.py:228} INFO - Task exited with return code 1
+[2025-12-09T18:34:50.181+0000] {taskinstance.py:2776} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2025-12-09T19:00:10.816+0000] {logging_mixin.py:151} INFO - Changing /opt/airflow/logs/dag_id=etl_reddit_pipeline/run_id=scheduled__2025-12-08T00:00:00+00:00/task_id=reddit_extraction permission to 509
+[2025-12-09T19:00:10.817+0000] {logging_mixin.py:151} INFO - Failed to change /opt/airflow/logs/dag_id=etl_reddit_pipeline/run_id=scheduled__2025-12-08T00:00:00+00:00/task_id=reddit_extraction permission to 509: [Errno 1] Operation not permitted: '/opt/airflow/logs/dag_id=etl_reddit_pipeline/run_id=scheduled__2025-12-08T00:00:00+00:00/task_id=reddit_extraction'
+[2025-12-09T19:00:10.844+0000] {logging_mixin.py:151} INFO - Changing /opt/airflow/logs/dag_id=etl_reddit_pipeline/run_id=scheduled__2025-12-08T00:00:00+00:00/task_id=reddit_extraction permission to 509
+[2025-12-09T19:00:10.844+0000] {logging_mixin.py:151} INFO - Failed to change /opt/airflow/logs/dag_id=etl_reddit_pipeline/run_id=scheduled__2025-12-08T00:00:00+00:00/task_id=reddit_extraction permission to 509: [Errno 1] Operation not permitted: '/opt/airflow/logs/dag_id=etl_reddit_pipeline/run_id=scheduled__2025-12-08T00:00:00+00:00/task_id=reddit_extraction'
+[2025-12-09T19:00:10.865+0000] {taskinstance.py:1157} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: etl_reddit_pipeline.reddit_extraction scheduled__2025-12-08T00:00:00+00:00 [queued]>
+[2025-12-09T19:00:10.869+0000] {taskinstance.py:1157} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: etl_reddit_pipeline.reddit_extraction scheduled__2025-12-08T00:00:00+00:00 [queued]>
+[2025-12-09T19:00:10.870+0000] {taskinstance.py:1359} INFO - Starting attempt 1 of 3
+[2025-12-09T19:00:10.877+0000] {taskinstance.py:1380} INFO - Executing <Task(PythonOperator): reddit_extraction> on 2025-12-08 00:00:00+00:00
+[2025-12-09T19:00:10.891+0000] {standard_task_runner.py:57} INFO - Started process 58 to run task
+[2025-12-09T19:00:10.896+0000] {standard_task_runner.py:84} INFO - Running: ['airflow', 'tasks', 'run', 'etl_reddit_pipeline', 'reddit_extraction', 'scheduled__2025-12-08T00:00:00+00:00', '--job-id', '3', '--raw', '--subdir', 'DAGS_FOLDER/redditdag.py', '--cfg-path', '/tmp/tmp7cy0qvmn']
+[2025-12-09T19:00:10.900+0000] {standard_task_runner.py:85} INFO - Job 3: Subtask reddit_extraction
+[2025-12-09T19:00:10.946+0000] {logging_mixin.py:151} INFO - Changing /opt/airflow/logs/dag_id=etl_reddit_pipeline/run_id=scheduled__2025-12-08T00:00:00+00:00/task_id=reddit_extraction permission to 509
+[2025-12-09T19:00:10.946+0000] {logging_mixin.py:151} INFO - Failed to change /opt/airflow/logs/dag_id=etl_reddit_pipeline/run_id=scheduled__2025-12-08T00:00:00+00:00/task_id=reddit_extraction permission to 509: [Errno 1] Operation not permitted: '/opt/airflow/logs/dag_id=etl_reddit_pipeline/run_id=scheduled__2025-12-08T00:00:00+00:00/task_id=reddit_extraction'
+[2025-12-09T19:00:10.947+0000] {task_command.py:415} INFO - Running <TaskInstance: etl_reddit_pipeline.reddit_extraction scheduled__2025-12-08T00:00:00+00:00 [running]> on host 533820f893cc
+[2025-12-09T19:00:11.013+0000] {taskinstance.py:1660} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='Sayuj Chapagain' AIRFLOW_CTX_DAG_ID='etl_reddit_pipeline' AIRFLOW_CTX_TASK_ID='reddit_extraction' AIRFLOW_CTX_EXECUTION_DATE='2025-12-08T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2025-12-08T00:00:00+00:00'
+[2025-12-09T19:00:11.147+0000] {logging_mixin.py:151} WARNING - Version 7.7.1 of praw is outdated. Version 7.8.1 was released Friday October 25, 2024.
+[2025-12-09T19:00:11.148+0000] {logging_mixin.py:151} INFO - connected to reddit!
+[2025-12-09T19:00:11.149+0000] {logging_mixin.py:151} INFO - <praw.models.listing.generator.ListingGenerator object at 0x73e43b13cd90>
+[2025-12-09T19:00:11.515+0000] {taskinstance.py:1935} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/operators/python.py", line 192, in execute
+    return_value = self.execute_callable()
+                   ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/operators/python.py", line 209, in execute_callable
+    return self.python_callable(*self.op_args, **self.op_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/airflow/pipelines/reddit_pipeline.py", line 8, in reddit_pipeline
+    posts=extract_posts(instance, subreddit, time_filter, limit)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/airflow/etls/reddit_etl.py", line 30, in extract_posts
+    for post in posts:
+  File "/home/airflow/.local/lib/python3.11/site-packages/praw/models/listing/generator.py", line 63, in __next__
+    self._next_batch()
+  File "/home/airflow/.local/lib/python3.11/site-packages/praw/models/listing/generator.py", line 89, in _next_batch
+    self._listing = self._reddit.get(self.url, params=self.params)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/praw/util/deprecate_args.py", line 43, in wrapped
+    return func(**dict(zip(_old_args, args)), **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/praw/reddit.py", line 712, in get
+    return self._objectify_request(method="GET", params=params, path=path)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/praw/reddit.py", line 517, in _objectify_request
+    self.request(
+  File "/home/airflow/.local/lib/python3.11/site-packages/praw/util/deprecate_args.py", line 43, in wrapped
+    return func(**dict(zip(_old_args, args)), **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/praw/reddit.py", line 941, in request
+    return self._core.request(
+           ^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/prawcore/sessions.py", line 328, in request
+    return self._request_with_retries(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/prawcore/sessions.py", line 234, in _request_with_retries
+    response, saved_exception = self._make_request(
+                                ^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/prawcore/sessions.py", line 186, in _make_request
+    response = self._rate_limiter.call(
+               ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/prawcore/rate_limit.py", line 46, in call
+    kwargs["headers"] = set_header_callback()
+                        ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/prawcore/sessions.py", line 282, in _set_header_callback
+    self._authorizer.refresh()
+  File "/home/airflow/.local/lib/python3.11/site-packages/prawcore/auth.py", line 473, in refresh
+    self._request_token(
+  File "/home/airflow/.local/lib/python3.11/site-packages/prawcore/auth.py", line 155, in _request_token
+    response = self._authenticator._post(url=url, **data)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/prawcore/auth.py", line 59, in _post
+    raise ResponseException(response)
+prawcore.exceptions.ResponseException: received 401 HTTP response
+[2025-12-09T19:00:11.535+0000] {taskinstance.py:1398} INFO - Marking task as UP_FOR_RETRY. dag_id=etl_reddit_pipeline, task_id=reddit_extraction, execution_date=20251208T000000, start_date=20251209T190010, end_date=20251209T190011
+[2025-12-09T19:00:11.546+0000] {standard_task_runner.py:104} ERROR - Failed to execute job 3 for task reddit_extraction (received 401 HTTP response; 58)
+[2025-12-09T19:00:11.589+0000] {local_task_job_runner.py:228} INFO - Task exited with return code 1
+[2025-12-09T19:00:11.611+0000] {taskinstance.py:2776} INFO - 0 downstream tasks scheduled from follow-on schedule check

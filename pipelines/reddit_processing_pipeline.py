@@ -53,12 +53,26 @@ def clean_reddit_data(df):
     try:
         logger.info("Starting data cleaning...")
         initial_count = len(df)
+        
+        # Handle empty DataFrame
+        if df.empty:
+            logger.warning("Empty DataFrame provided for cleaning")
+            return df
+        
+        # Remove duplicates
         df = df.drop_duplicates(subset=['id'], keep='first')
         logger.info(f"Removed {initial_count - len(df)} duplicate records")
         
+        # Fill missing values
         df = df.fillna('')
+        
+        # Create combined text for analysis
         df['combined_text'] = df['title'].astype(str)
+        
+        # Remove empty posts
         df = df[df['combined_text'].str.strip() != '']
+        
+        # Truncate text to reasonable length (prevent memory issues)
         df['combined_text'] = df['combined_text'].str[:500]
         
         logger.info(f"Cleaned data: {len(df)} records remaining")
@@ -69,7 +83,6 @@ def clean_reddit_data(df):
 
 def extract_keywords(text):
     """Extract important keywords related to protests and government"""
-    # Keywords related to Nepal's Gen Z protests
     protest_keywords = [
         'protest', 'demonstration', 'rally', 'movement', 'uprising',
         'corruption', 'government', 'youth', 'genz', 'gen z',
@@ -84,11 +97,7 @@ def extract_keywords(text):
     return found_keywords
 
 def analyze_emotion(text):
-    """
-    Analyze emotional intensity and specific emotions
-    Returns: emotion scores for anger, fear, joy, sadness
-    """
-    # Simple rule-based emotion detection
+    """Analyze emotional intensity and specific emotions"""
     emotions = {
         'anger': 0.0,
         'fear': 0.0,
@@ -136,9 +145,7 @@ def analyze_emotion(text):
     return emotions
 
 def detect_narrative_frame(text, keywords):
-    """
-    Detect which narrative frame the post belongs to
-    """
+    """Detect which narrative frame the post belongs to"""
     text_lower = text.lower()
     
     # Anti-corruption narrative
@@ -165,14 +172,9 @@ def detect_narrative_frame(text, keywords):
         return 'general_discussion'
 
 def calculate_engagement_weight(row):
-    """
-    Calculate engagement weight based on score and comments
-    Higher engagement = more influential post
-    """
-    score_weight = np.log1p(max(row['score'], 0))  # log scale for score
-    comment_weight = np.log1p(row['num_comments'])  # log scale for comments
-    
-    # Combined weight (normalized)
+    """Calculate engagement weight based on score and comments"""
+    score_weight = np.log1p(max(row['score'], 0))
+    comment_weight = np.log1p(row['num_comments'])
     total_weight = score_weight + comment_weight
     return total_weight
 
@@ -188,24 +190,25 @@ def perform_enhanced_sentiment_analysis(df, text_column='combined_text'):
     try:
         logger.info("Initializing enhanced sentiment analysis...")
         
+        # Handle empty DataFrame
+        if df.empty:
+            logger.warning("Empty DataFrame for sentiment analysis")
+            return add_default_sentiment_columns(df)
+        
         # Initialize base sentiment analyzer
         sentiment_analyzer = pipeline(
             "sentiment-analysis",
             model="distilbert-base-uncased-finetuned-sst-2-english",
-            device=-1,
+            device=-1,  # Use CPU
             truncation=True,
             max_length=512
         )
         
         logger.info(f"Running enhanced sentiment analysis on {len(df)} records...")
         
-        # Limit processing if needed
-        max_records = 500
-        if len(df) > max_records:
-            logger.warning(f"Processing first {max_records} records")
-            df_to_process = df.head(max_records).copy()
-        else:
-            df_to_process = df.copy()
+        # FIXED: Process ALL records, but in batches for efficiency
+        # Removed arbitrary 500 limit that was losing data
+        df_to_process = df.copy()
         
         # Initialize result columns
         sentiments = []
@@ -215,7 +218,7 @@ def perform_enhanced_sentiment_analysis(df, text_column='combined_text'):
         narratives = []
         subjectivity_scores = []
         
-        batch_size = 4
+        batch_size = 8  # Increased from 4 for better performance
         total_batches = (len(df_to_process) + batch_size - 1) // batch_size
         
         for i in range(0, len(df_to_process), batch_size):
@@ -269,8 +272,8 @@ def perform_enhanced_sentiment_analysis(df, text_column='combined_text'):
                     narratives.append('general_discussion')
                     subjectivity_scores.append(0.5)
             
-            if batch_num % 5 == 0 or batch_num == total_batches:
-                logger.info(f"Processed batch {batch_num}/{total_batches}")
+            if batch_num % 10 == 0 or batch_num == total_batches:
+                logger.info(f"Processed batch {batch_num}/{total_batches} ({len(sentiments)} records)")
         
         # Assign results
         df_to_process['sentiment'] = sentiments
@@ -290,23 +293,8 @@ def perform_enhanced_sentiment_analysis(df, text_column='combined_text'):
         # Calculate engagement weight
         df_to_process['engagement_weight'] = df_to_process.apply(calculate_engagement_weight, axis=1)
         
-        # Calculate weighted sentiment (more weight to highly engaged posts)
+        # Calculate weighted sentiment
         df_to_process['weighted_sentiment'] = df_to_process['sentiment_score'] * df_to_process['engagement_weight']
-        
-        # Handle unprocessed records
-        if len(df) > max_records:
-            remaining_df = df.iloc[max_records:].copy()
-            remaining_df['sentiment'] = 'NEUTRAL'
-            remaining_df['sentiment_score'] = 0.0
-            remaining_df['keywords'] = ''
-            remaining_df['narrative_frame'] = 'general_discussion'
-            remaining_df['subjectivity'] = 0.5
-            for emotion in ['anger', 'fear', 'joy', 'sadness', 'frustration', 'hope']:
-                remaining_df[f'emotion_{emotion}'] = 0.0
-            remaining_df['dominant_emotion'] = 'neutral'
-            remaining_df['engagement_weight'] = 0.0
-            remaining_df['weighted_sentiment'] = 0.0
-            df_to_process = pd.concat([df_to_process, remaining_df], ignore_index=True)
         
         logger.info("Enhanced sentiment analysis completed!")
         logger.info(f"\nSentiment distribution:\n{df_to_process['sentiment'].value_counts()}")
@@ -317,10 +305,22 @@ def perform_enhanced_sentiment_analysis(df, text_column='combined_text'):
     
     except Exception as e:
         logger.error(f"Error in sentiment analysis: {str(e)}")
-        # Fallback
-        df['sentiment'] = 'NEUTRAL'
-        df['sentiment_score'] = 0.0
-        return df
+        # Fallback: add default columns
+        return add_default_sentiment_columns(df)
+
+def add_default_sentiment_columns(df):
+    """Add default sentiment columns for fallback scenarios"""
+    df['sentiment'] = 'NEUTRAL'
+    df['sentiment_score'] = 0.0
+    df['keywords'] = ''
+    df['narrative_frame'] = 'general_discussion'
+    df['subjectivity'] = 0.5
+    for emotion in ['anger', 'fear', 'joy', 'sadness', 'frustration', 'hope']:
+        df[f'emotion_{emotion}'] = 0.0
+    df['dominant_emotion'] = 'neutral'
+    df['engagement_weight'] = 0.0
+    df['weighted_sentiment'] = 0.0
+    return df
 
 def upload_to_s3(df, bucket_name, file_key):
     """Upload processed DataFrame to S3"""
@@ -345,23 +345,32 @@ def save_to_postgres(df, table_name='reddit_sentiment'):
     try:
         from sqlalchemy import create_engine
         
-        db_host = 'postgres'
-        db_port = '5432'
-        db_name = 'airflow_reddit'
-        db_user = 'postgres'
-        db_password = 'postgres'
+        # FIXED: Use environment variables for database config
+        db_host = os.getenv('POSTGRES_HOST', 'postgres')
+        db_port = os.getenv('POSTGRES_PORT', '5432')
+        db_name = os.getenv('POSTGRES_DB', 'airflow_reddit')
+        db_user = os.getenv('POSTGRES_USER', 'postgres')
+        db_password = os.getenv('POSTGRES_PASSWORD', 'postgres')
         
         connection_string = f'postgresql://{db_user}:{db_password}@{db_host}:{db_port}/{db_name}'
         
         logger.info("Connecting to Postgres database...")
         engine = create_engine(connection_string)
         
+        # Add processing timestamp
         df['processed_at'] = datetime.now()
         
         logger.info(f"Saving {len(df)} records to Postgres table '{table_name}'")
-        df.to_sql(table_name, engine, if_exists='append', index=False, method='multi', chunksize=100)
+        df.to_sql(
+            table_name, 
+            engine, 
+            if_exists='append',  # Append to existing table
+            index=False, 
+            method='multi', 
+            chunksize=100
+        )
         
-        logger.info("Successfully saved to Postgres!")
+        logger.info(f"Successfully saved {len(df)} records to Postgres!")
     except Exception as e:
         logger.error(f"Error saving to Postgres: {str(e)}")
         raise
@@ -369,42 +378,68 @@ def save_to_postgres(df, table_name='reddit_sentiment'):
 def reddit_processing_pipeline(file_name, bucket_name, **kwargs):
     """
     Enhanced processing pipeline with multi-dimensional sentiment analysis
+    
+    Pipeline Steps:
+    1. Download raw data from S3
+    2. Clean and preprocess data
+    3. Perform enhanced sentiment analysis (sentiment, emotions, narratives)
+    4. Upload processed data back to S3
+    5. Save to PostgreSQL database
     """
     try:
+        # FIXED: Use consistent file naming with DAG
         raw_file_key = f'raw/{file_name}.csv'
         processed_file_key = f'processed/{file_name}_processed.csv'
         
-        logger.info("=" * 50)
+        logger.info("=" * 60)
+        logger.info(f"STARTING REDDIT PROCESSING PIPELINE")
+        logger.info(f"File: {file_name}")
+        logger.info(f"Bucket: {bucket_name}")
+        logger.info("=" * 60)
+        
+        logger.info("\n" + "=" * 60)
         logger.info("STEP 1: Downloading raw data from S3")
-        logger.info("=" * 50)
+        logger.info("=" * 60)
         df = download_from_s3(bucket_name, raw_file_key)
         
-        logger.info("=" * 50)
+        # Handle empty extraction
+        if df.empty:
+            logger.warning("No data to process. Exiting pipeline.")
+            return "No data to process"
+        
+        logger.info("\n" + "=" * 60)
         logger.info("STEP 2: Cleaning data")
-        logger.info("=" * 50)
+        logger.info("=" * 60)
         df_cleaned = clean_reddit_data(df)
         
-        logger.info("=" * 50)
+        if df_cleaned.empty:
+            logger.warning("No data after cleaning. Exiting pipeline.")
+            return "No data after cleaning"
+        
+        logger.info("\n" + "=" * 60)
         logger.info("STEP 3: Performing enhanced sentiment analysis")
-        logger.info("=" * 50)
+        logger.info("=" * 60)
         df_with_sentiment = perform_enhanced_sentiment_analysis(df_cleaned)
         
-        logger.info("=" * 50)
-        logger.info("STEP 4: Saving to S3")
-        logger.info("=" * 50)
+        logger.info("\n" + "=" * 60)
+        logger.info("STEP 4: Uploading processed data to S3")
+        logger.info("=" * 60)
         upload_to_s3(df_with_sentiment, bucket_name, processed_file_key)
         
-        logger.info("=" * 50)
-        logger.info("STEP 5: Saving to Postgres")
-        logger.info("=" * 50)
+        logger.info("\n" + "=" * 60)
+        logger.info("STEP 5: Saving to PostgreSQL")
+        logger.info("=" * 60)
         save_to_postgres(df_with_sentiment)
         
-        logger.info("=" * 50)
-        logger.info("PIPELINE COMPLETED SUCCESSFULLY!")
-        logger.info("=" * 50)
+        logger.info("\n" + "=" * 60)
+        logger.info("✅ PIPELINE COMPLETED SUCCESSFULLY!")
+        logger.info(f"✅ Processed {len(df_with_sentiment)} records")
+        logger.info("=" * 60)
         
-        return f"Processed {len(df_with_sentiment)} records"
+        return f"Processed {len(df_with_sentiment)} records successfully"
         
     except Exception as e:
-        logger.error(f"Pipeline failed: {str(e)}")
+        logger.error("=" * 60)
+        logger.error(f"❌ PIPELINE FAILED: {str(e)}")
+        logger.error("=" * 60)
         raise

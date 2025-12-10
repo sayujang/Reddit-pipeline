@@ -8,6 +8,9 @@ x-airflow-common: #This is a template that other containers can reuse
   image: custom-airflow:2.7.1-python3.11 #Create a image which is like a blueprint of all the codes, libraries etc which is created using dockerfile
   env_file:
     - airflow.env
+  environment:
+    - AIRFLOW_UID=${AIRFLOW_UID:-1000}      # <-- new: use host UID (export before up)
+    - AIRFLOW__CORE__LOGGING_LEVEL=INFO 
   volumes: #mapping file paths in local pc to docker container
     - ./config:/opt/airflow/config
     - ./dags:/opt/airflow/dags
