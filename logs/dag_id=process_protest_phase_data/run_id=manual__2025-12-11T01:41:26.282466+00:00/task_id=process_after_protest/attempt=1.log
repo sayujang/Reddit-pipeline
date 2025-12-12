@@ -1,0 +1,239 @@
+[2025-12-11T01:41:31.752+0000] {taskinstance.py:1157} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: process_protest_phase_data.process_after_protest manual__2025-12-11T01:41:26.282466+00:00 [queued]>
+[2025-12-11T01:41:31.757+0000] {taskinstance.py:1157} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: process_protest_phase_data.process_after_protest manual__2025-12-11T01:41:26.282466+00:00 [queued]>
+[2025-12-11T01:41:31.758+0000] {taskinstance.py:1359} INFO - Starting attempt 1 of 3
+[2025-12-11T01:41:31.767+0000] {taskinstance.py:1380} INFO - Executing <Task(PythonOperator): process_after_protest> on 2025-12-11 01:41:26.282466+00:00
+[2025-12-11T01:41:31.775+0000] {standard_task_runner.py:57} INFO - Started process 97 to run task
+[2025-12-11T01:41:31.779+0000] {standard_task_runner.py:84} INFO - Running: ['airflow', 'tasks', 'run', 'process_protest_phase_data', 'process_after_protest', 'manual__2025-12-11T01:41:26.282466+00:00', '--job-id', '19', '--raw', '--subdir', 'DAGS_FOLDER/redditdag.py', '--cfg-path', '/tmp/tmpr3_dn50j']
+[2025-12-11T01:41:31.783+0000] {standard_task_runner.py:85} INFO - Job 19: Subtask process_after_protest
+[2025-12-11T01:41:31.822+0000] {task_command.py:415} INFO - Running <TaskInstance: process_protest_phase_data.process_after_protest manual__2025-12-11T01:41:26.282466+00:00 [running]> on host 0f39f181a760
+[2025-12-11T01:41:31.898+0000] {taskinstance.py:1660} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='Sayuj Chapagain' AIRFLOW_CTX_DAG_ID='process_protest_phase_data' AIRFLOW_CTX_TASK_ID='process_after_protest' AIRFLOW_CTX_EXECUTION_DATE='2025-12-11T01:41:26.282466+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2025-12-11T01:41:26.282466+00:00'
+[2025-12-11T01:41:31.900+0000] {reddit_processing_pipeline.py:410} INFO - ============================================================
+[2025-12-11T01:41:31.901+0000] {reddit_processing_pipeline.py:411} INFO - PROCESSING PHASE: AFTER
+[2025-12-11T01:41:31.901+0000] {reddit_processing_pipeline.py:412} INFO - Date Range: 20250910 to 20251031
+[2025-12-11T01:41:31.901+0000] {reddit_processing_pipeline.py:413} INFO - ============================================================
+[2025-12-11T01:41:31.901+0000] {reddit_processing_pipeline.py:416} INFO - STEP 1: Finding files in date range...
+[2025-12-11T01:41:33.362+0000] {reddit_processing_pipeline.py:78} INFO - Found file in range: raw/reddit_20250910.csv
+[2025-12-11T01:41:33.363+0000] {reddit_processing_pipeline.py:78} INFO - Found file in range: raw/reddit_20250911.csv
+[2025-12-11T01:41:33.363+0000] {reddit_processing_pipeline.py:78} INFO - Found file in range: raw/reddit_20250912.csv
+[2025-12-11T01:41:33.363+0000] {reddit_processing_pipeline.py:78} INFO - Found file in range: raw/reddit_20250913.csv
+[2025-12-11T01:41:33.363+0000] {reddit_processing_pipeline.py:78} INFO - Found file in range: raw/reddit_20250914.csv
+[2025-12-11T01:41:33.363+0000] {reddit_processing_pipeline.py:78} INFO - Found file in range: raw/reddit_20250915.csv
+[2025-12-11T01:41:33.363+0000] {reddit_processing_pipeline.py:78} INFO - Found file in range: raw/reddit_20250916.csv
+[2025-12-11T01:41:33.363+0000] {reddit_processing_pipeline.py:78} INFO - Found file in range: raw/reddit_20250917.csv
+[2025-12-11T01:41:33.363+0000] {reddit_processing_pipeline.py:78} INFO - Found file in range: raw/reddit_20250918.csv
+[2025-12-11T01:41:33.363+0000] {reddit_processing_pipeline.py:78} INFO - Found file in range: raw/reddit_20250919.csv
+[2025-12-11T01:41:33.363+0000] {reddit_processing_pipeline.py:78} INFO - Found file in range: raw/reddit_20250920.csv
+[2025-12-11T01:41:33.364+0000] {reddit_processing_pipeline.py:78} INFO - Found file in range: raw/reddit_20250921.csv
+[2025-12-11T01:41:33.364+0000] {reddit_processing_pipeline.py:78} INFO - Found file in range: raw/reddit_20250922.csv
+[2025-12-11T01:41:33.364+0000] {reddit_processing_pipeline.py:78} INFO - Found file in range: raw/reddit_20250923.csv
+[2025-12-11T01:41:33.364+0000] {reddit_processing_pipeline.py:78} INFO - Found file in range: raw/reddit_20250924.csv
+[2025-12-11T01:41:33.364+0000] {reddit_processing_pipeline.py:78} INFO - Found file in range: raw/reddit_20250925.csv
+[2025-12-11T01:41:33.364+0000] {reddit_processing_pipeline.py:78} INFO - Found file in range: raw/reddit_20250926.csv
+[2025-12-11T01:41:33.364+0000] {reddit_processing_pipeline.py:78} INFO - Found file in range: raw/reddit_20250927.csv
+[2025-12-11T01:41:33.364+0000] {reddit_processing_pipeline.py:78} INFO - Found file in range: raw/reddit_20250928.csv
+[2025-12-11T01:41:33.364+0000] {reddit_processing_pipeline.py:78} INFO - Found file in range: raw/reddit_20250929.csv
+[2025-12-11T01:41:33.365+0000] {reddit_processing_pipeline.py:78} INFO - Found file in range: raw/reddit_20250930.csv
+[2025-12-11T01:41:33.365+0000] {reddit_processing_pipeline.py:78} INFO - Found file in range: raw/reddit_20251001.csv
+[2025-12-11T01:41:33.365+0000] {reddit_processing_pipeline.py:78} INFO - Found file in range: raw/reddit_20251002.csv
+[2025-12-11T01:41:33.365+0000] {reddit_processing_pipeline.py:78} INFO - Found file in range: raw/reddit_20251003.csv
+[2025-12-11T01:41:33.365+0000] {reddit_processing_pipeline.py:78} INFO - Found file in range: raw/reddit_20251004.csv
+[2025-12-11T01:41:33.365+0000] {reddit_processing_pipeline.py:78} INFO - Found file in range: raw/reddit_20251005.csv
+[2025-12-11T01:41:33.365+0000] {reddit_processing_pipeline.py:78} INFO - Found file in range: raw/reddit_20251006.csv
+[2025-12-11T01:41:33.366+0000] {reddit_processing_pipeline.py:78} INFO - Found file in range: raw/reddit_20251007.csv
+[2025-12-11T01:41:33.366+0000] {reddit_processing_pipeline.py:78} INFO - Found file in range: raw/reddit_20251008.csv
+[2025-12-11T01:41:33.366+0000] {reddit_processing_pipeline.py:78} INFO - Found file in range: raw/reddit_20251009.csv
+[2025-12-11T01:41:33.366+0000] {reddit_processing_pipeline.py:78} INFO - Found file in range: raw/reddit_20251010.csv
+[2025-12-11T01:41:33.366+0000] {reddit_processing_pipeline.py:78} INFO - Found file in range: raw/reddit_20251011.csv
+[2025-12-11T01:41:33.366+0000] {reddit_processing_pipeline.py:78} INFO - Found file in range: raw/reddit_20251012.csv
+[2025-12-11T01:41:33.366+0000] {reddit_processing_pipeline.py:78} INFO - Found file in range: raw/reddit_20251013.csv
+[2025-12-11T01:41:33.366+0000] {reddit_processing_pipeline.py:78} INFO - Found file in range: raw/reddit_20251014.csv
+[2025-12-11T01:41:33.367+0000] {reddit_processing_pipeline.py:78} INFO - Found file in range: raw/reddit_20251015.csv
+[2025-12-11T01:41:33.367+0000] {reddit_processing_pipeline.py:78} INFO - Found file in range: raw/reddit_20251016.csv
+[2025-12-11T01:41:33.367+0000] {reddit_processing_pipeline.py:78} INFO - Found file in range: raw/reddit_20251017.csv
+[2025-12-11T01:41:33.367+0000] {reddit_processing_pipeline.py:78} INFO - Found file in range: raw/reddit_20251018.csv
+[2025-12-11T01:41:33.367+0000] {reddit_processing_pipeline.py:78} INFO - Found file in range: raw/reddit_20251019.csv
+[2025-12-11T01:41:33.367+0000] {reddit_processing_pipeline.py:78} INFO - Found file in range: raw/reddit_20251020.csv
+[2025-12-11T01:41:33.367+0000] {reddit_processing_pipeline.py:78} INFO - Found file in range: raw/reddit_20251021.csv
+[2025-12-11T01:41:33.367+0000] {reddit_processing_pipeline.py:78} INFO - Found file in range: raw/reddit_20251022.csv
+[2025-12-11T01:41:33.368+0000] {reddit_processing_pipeline.py:78} INFO - Found file in range: raw/reddit_20251023.csv
+[2025-12-11T01:41:33.368+0000] {reddit_processing_pipeline.py:78} INFO - Found file in range: raw/reddit_20251024.csv
+[2025-12-11T01:41:33.368+0000] {reddit_processing_pipeline.py:78} INFO - Found file in range: raw/reddit_20251025.csv
+[2025-12-11T01:41:33.368+0000] {reddit_processing_pipeline.py:78} INFO - Found file in range: raw/reddit_20251026.csv
+[2025-12-11T01:41:33.368+0000] {reddit_processing_pipeline.py:78} INFO - Found file in range: raw/reddit_20251027.csv
+[2025-12-11T01:41:33.368+0000] {reddit_processing_pipeline.py:78} INFO - Found file in range: raw/reddit_20251028.csv
+[2025-12-11T01:41:33.368+0000] {reddit_processing_pipeline.py:78} INFO - Found file in range: raw/reddit_20251029.csv
+[2025-12-11T01:41:33.368+0000] {reddit_processing_pipeline.py:78} INFO - Found file in range: raw/reddit_20251030.csv
+[2025-12-11T01:41:33.368+0000] {reddit_processing_pipeline.py:78} INFO - Found file in range: raw/reddit_20251031.csv
+[2025-12-11T01:41:33.369+0000] {reddit_processing_pipeline.py:83} INFO - Found 52 files between 20250910 and 20251031
+[2025-12-11T01:41:33.370+0000] {reddit_processing_pipeline.py:424} INFO - STEP 2: Downloading and combining files...
+[2025-12-11T01:41:33.374+0000] {reddit_processing_pipeline.py:94} INFO - Downloading raw/reddit_20250910.csv from bucket reddit-s3
+[2025-12-11T01:41:43.061+0000] {reddit_processing_pipeline.py:98} INFO - Successfully loaded 1821 records from raw/reddit_20250910.csv
+[2025-12-11T01:41:43.067+0000] {reddit_processing_pipeline.py:94} INFO - Downloading raw/reddit_20250911.csv from bucket reddit-s3
+[2025-12-11T01:41:47.493+0000] {reddit_processing_pipeline.py:98} INFO - Successfully loaded 1173 records from raw/reddit_20250911.csv
+[2025-12-11T01:41:47.499+0000] {reddit_processing_pipeline.py:94} INFO - Downloading raw/reddit_20250912.csv from bucket reddit-s3
+[2025-12-11T01:41:51.915+0000] {reddit_processing_pipeline.py:98} INFO - Successfully loaded 813 records from raw/reddit_20250912.csv
+[2025-12-11T01:41:52.549+0000] {reddit_processing_pipeline.py:94} INFO - Downloading raw/reddit_20250913.csv from bucket reddit-s3
+[2025-12-11T01:42:01.162+0000] {reddit_processing_pipeline.py:98} INFO - Successfully loaded 463 records from raw/reddit_20250913.csv
+[2025-12-11T01:42:01.169+0000] {reddit_processing_pipeline.py:94} INFO - Downloading raw/reddit_20250914.csv from bucket reddit-s3
+[2025-12-11T01:42:15.037+0000] {reddit_processing_pipeline.py:98} INFO - Successfully loaded 369 records from raw/reddit_20250914.csv
+[2025-12-11T01:42:15.048+0000] {reddit_processing_pipeline.py:94} INFO - Downloading raw/reddit_20250915.csv from bucket reddit-s3
+[2025-12-11T01:42:21.215+0000] {reddit_processing_pipeline.py:98} INFO - Successfully loaded 349 records from raw/reddit_20250915.csv
+[2025-12-11T01:42:21.248+0000] {reddit_processing_pipeline.py:94} INFO - Downloading raw/reddit_20250916.csv from bucket reddit-s3
+[2025-12-11T01:42:26.269+0000] {reddit_processing_pipeline.py:98} INFO - Successfully loaded 243 records from raw/reddit_20250916.csv
+[2025-12-11T01:42:26.307+0000] {reddit_processing_pipeline.py:94} INFO - Downloading raw/reddit_20250917.csv from bucket reddit-s3
+[2025-12-11T01:42:30.472+0000] {reddit_processing_pipeline.py:98} INFO - Successfully loaded 247 records from raw/reddit_20250917.csv
+[2025-12-11T01:42:30.499+0000] {reddit_processing_pipeline.py:94} INFO - Downloading raw/reddit_20250918.csv from bucket reddit-s3
+[2025-12-11T01:42:33.869+0000] {reddit_processing_pipeline.py:98} INFO - Successfully loaded 244 records from raw/reddit_20250918.csv
+[2025-12-11T01:42:33.917+0000] {reddit_processing_pipeline.py:94} INFO - Downloading raw/reddit_20250919.csv from bucket reddit-s3
+[2025-12-11T01:42:36.186+0000] {reddit_processing_pipeline.py:98} INFO - Successfully loaded 290 records from raw/reddit_20250919.csv
+[2025-12-11T01:42:36.210+0000] {reddit_processing_pipeline.py:94} INFO - Downloading raw/reddit_20250920.csv from bucket reddit-s3
+[2025-12-11T01:42:39.293+0000] {reddit_processing_pipeline.py:98} INFO - Successfully loaded 204 records from raw/reddit_20250920.csv
+[2025-12-11T01:42:39.330+0000] {reddit_processing_pipeline.py:94} INFO - Downloading raw/reddit_20250921.csv from bucket reddit-s3
+[2025-12-11T01:42:41.103+0000] {reddit_processing_pipeline.py:98} INFO - Successfully loaded 187 records from raw/reddit_20250921.csv
+[2025-12-11T01:42:41.152+0000] {reddit_processing_pipeline.py:94} INFO - Downloading raw/reddit_20250922.csv from bucket reddit-s3
+[2025-12-11T01:42:45.225+0000] {reddit_processing_pipeline.py:98} INFO - Successfully loaded 178 records from raw/reddit_20250922.csv
+[2025-12-11T01:42:45.238+0000] {reddit_processing_pipeline.py:94} INFO - Downloading raw/reddit_20250923.csv from bucket reddit-s3
+[2025-12-11T01:42:46.668+0000] {reddit_processing_pipeline.py:98} INFO - Successfully loaded 166 records from raw/reddit_20250923.csv
+[2025-12-11T01:42:46.711+0000] {reddit_processing_pipeline.py:94} INFO - Downloading raw/reddit_20250924.csv from bucket reddit-s3
+[2025-12-11T01:42:54.316+0000] {reddit_processing_pipeline.py:98} INFO - Successfully loaded 190 records from raw/reddit_20250924.csv
+[2025-12-11T01:42:54.339+0000] {reddit_processing_pipeline.py:94} INFO - Downloading raw/reddit_20250925.csv from bucket reddit-s3
+[2025-12-11T01:42:56.399+0000] {reddit_processing_pipeline.py:98} INFO - Successfully loaded 152 records from raw/reddit_20250925.csv
+[2025-12-11T01:42:56.412+0000] {reddit_processing_pipeline.py:94} INFO - Downloading raw/reddit_20250926.csv from bucket reddit-s3
+[2025-12-11T01:43:01.447+0000] {reddit_processing_pipeline.py:98} INFO - Successfully loaded 196 records from raw/reddit_20250926.csv
+[2025-12-11T01:43:01.477+0000] {reddit_processing_pipeline.py:94} INFO - Downloading raw/reddit_20250927.csv from bucket reddit-s3
+[2025-12-11T01:43:05.824+0000] {reddit_processing_pipeline.py:98} INFO - Successfully loaded 175 records from raw/reddit_20250927.csv
+[2025-12-11T01:43:07.126+0000] {reddit_processing_pipeline.py:94} INFO - Downloading raw/reddit_20250928.csv from bucket reddit-s3
+[2025-12-11T01:43:10.212+0000] {reddit_processing_pipeline.py:98} INFO - Successfully loaded 151 records from raw/reddit_20250928.csv
+[2025-12-11T01:43:10.253+0000] {reddit_processing_pipeline.py:94} INFO - Downloading raw/reddit_20250929.csv from bucket reddit-s3
+[2025-12-11T01:43:13.299+0000] {reddit_processing_pipeline.py:98} INFO - Successfully loaded 110 records from raw/reddit_20250929.csv
+[2025-12-11T01:43:13.338+0000] {reddit_processing_pipeline.py:94} INFO - Downloading raw/reddit_20250930.csv from bucket reddit-s3
+[2025-12-11T01:43:14.233+0000] {reddit_processing_pipeline.py:98} INFO - Successfully loaded 104 records from raw/reddit_20250930.csv
+[2025-12-11T01:43:14.264+0000] {reddit_processing_pipeline.py:94} INFO - Downloading raw/reddit_20251001.csv from bucket reddit-s3
+[2025-12-11T01:43:16.147+0000] {reddit_processing_pipeline.py:98} INFO - Successfully loaded 141 records from raw/reddit_20251001.csv
+[2025-12-11T01:43:16.180+0000] {reddit_processing_pipeline.py:94} INFO - Downloading raw/reddit_20251002.csv from bucket reddit-s3
+[2025-12-11T01:43:20.800+0000] {reddit_processing_pipeline.py:98} INFO - Successfully loaded 112 records from raw/reddit_20251002.csv
+[2025-12-11T01:43:20.825+0000] {reddit_processing_pipeline.py:94} INFO - Downloading raw/reddit_20251003.csv from bucket reddit-s3
+[2025-12-11T01:43:21.638+0000] {reddit_processing_pipeline.py:98} INFO - Successfully loaded 88 records from raw/reddit_20251003.csv
+[2025-12-11T01:43:21.661+0000] {reddit_processing_pipeline.py:94} INFO - Downloading raw/reddit_20251004.csv from bucket reddit-s3
+[2025-12-11T01:43:31.451+0000] {reddit_processing_pipeline.py:98} INFO - Successfully loaded 113 records from raw/reddit_20251004.csv
+[2025-12-11T01:43:31.477+0000] {reddit_processing_pipeline.py:94} INFO - Downloading raw/reddit_20251005.csv from bucket reddit-s3
+[2025-12-11T01:43:36.748+0000] {reddit_processing_pipeline.py:98} INFO - Successfully loaded 124 records from raw/reddit_20251005.csv
+[2025-12-11T01:43:36.772+0000] {reddit_processing_pipeline.py:94} INFO - Downloading raw/reddit_20251006.csv from bucket reddit-s3
+[2025-12-11T01:43:39.123+0000] {reddit_processing_pipeline.py:98} INFO - Successfully loaded 177 records from raw/reddit_20251006.csv
+[2025-12-11T01:43:39.142+0000] {reddit_processing_pipeline.py:94} INFO - Downloading raw/reddit_20251007.csv from bucket reddit-s3
+[2025-12-11T01:43:40.861+0000] {reddit_processing_pipeline.py:98} INFO - Successfully loaded 173 records from raw/reddit_20251007.csv
+[2025-12-11T01:43:40.889+0000] {reddit_processing_pipeline.py:94} INFO - Downloading raw/reddit_20251008.csv from bucket reddit-s3
+[2025-12-11T01:43:41.868+0000] {reddit_processing_pipeline.py:98} INFO - Successfully loaded 206 records from raw/reddit_20251008.csv
+[2025-12-11T01:43:41.889+0000] {reddit_processing_pipeline.py:94} INFO - Downloading raw/reddit_20251009.csv from bucket reddit-s3
+[2025-12-11T01:43:46.825+0000] {reddit_processing_pipeline.py:98} INFO - Successfully loaded 250 records from raw/reddit_20251009.csv
+[2025-12-11T01:43:46.854+0000] {reddit_processing_pipeline.py:94} INFO - Downloading raw/reddit_20251010.csv from bucket reddit-s3
+[2025-12-11T01:43:51.806+0000] {reddit_processing_pipeline.py:98} INFO - Successfully loaded 203 records from raw/reddit_20251010.csv
+[2025-12-11T01:43:51.849+0000] {reddit_processing_pipeline.py:94} INFO - Downloading raw/reddit_20251011.csv from bucket reddit-s3
+[2025-12-11T01:43:56.824+0000] {reddit_processing_pipeline.py:98} INFO - Successfully loaded 178 records from raw/reddit_20251011.csv
+[2025-12-11T01:43:56.849+0000] {reddit_processing_pipeline.py:94} INFO - Downloading raw/reddit_20251012.csv from bucket reddit-s3
+[2025-12-11T01:43:57.994+0000] {reddit_processing_pipeline.py:98} INFO - Successfully loaded 176 records from raw/reddit_20251012.csv
+[2025-12-11T01:43:58.019+0000] {reddit_processing_pipeline.py:94} INFO - Downloading raw/reddit_20251013.csv from bucket reddit-s3
+[2025-12-11T01:43:59.187+0000] {reddit_processing_pipeline.py:98} INFO - Successfully loaded 165 records from raw/reddit_20251013.csv
+[2025-12-11T01:43:59.206+0000] {reddit_processing_pipeline.py:94} INFO - Downloading raw/reddit_20251014.csv from bucket reddit-s3
+[2025-12-11T01:44:00.505+0000] {reddit_processing_pipeline.py:98} INFO - Successfully loaded 161 records from raw/reddit_20251014.csv
+[2025-12-11T01:44:00.531+0000] {reddit_processing_pipeline.py:94} INFO - Downloading raw/reddit_20251015.csv from bucket reddit-s3
+[2025-12-11T01:44:02.195+0000] {reddit_processing_pipeline.py:98} INFO - Successfully loaded 130 records from raw/reddit_20251015.csv
+[2025-12-11T01:44:02.221+0000] {reddit_processing_pipeline.py:94} INFO - Downloading raw/reddit_20251016.csv from bucket reddit-s3
+[2025-12-11T01:44:09.335+0000] {reddit_processing_pipeline.py:98} INFO - Successfully loaded 150 records from raw/reddit_20251016.csv
+[2025-12-11T01:44:09.357+0000] {reddit_processing_pipeline.py:94} INFO - Downloading raw/reddit_20251017.csv from bucket reddit-s3
+[2025-12-11T01:44:10.315+0000] {reddit_processing_pipeline.py:98} INFO - Successfully loaded 122 records from raw/reddit_20251017.csv
+[2025-12-11T01:44:10.363+0000] {reddit_processing_pipeline.py:94} INFO - Downloading raw/reddit_20251018.csv from bucket reddit-s3
+[2025-12-11T01:44:11.736+0000] {reddit_processing_pipeline.py:98} INFO - Successfully loaded 113 records from raw/reddit_20251018.csv
+[2025-12-11T01:44:11.765+0000] {reddit_processing_pipeline.py:94} INFO - Downloading raw/reddit_20251019.csv from bucket reddit-s3
+[2025-12-11T01:44:12.997+0000] {reddit_processing_pipeline.py:98} INFO - Successfully loaded 157 records from raw/reddit_20251019.csv
+[2025-12-11T01:44:13.033+0000] {reddit_processing_pipeline.py:94} INFO - Downloading raw/reddit_20251020.csv from bucket reddit-s3
+[2025-12-11T01:44:13.983+0000] {reddit_processing_pipeline.py:98} INFO - Successfully loaded 128 records from raw/reddit_20251020.csv
+[2025-12-11T01:44:14.017+0000] {reddit_processing_pipeline.py:94} INFO - Downloading raw/reddit_20251021.csv from bucket reddit-s3
+[2025-12-11T01:44:14.917+0000] {reddit_processing_pipeline.py:98} INFO - Successfully loaded 114 records from raw/reddit_20251021.csv
+[2025-12-11T01:44:14.960+0000] {reddit_processing_pipeline.py:94} INFO - Downloading raw/reddit_20251022.csv from bucket reddit-s3
+[2025-12-11T01:44:15.809+0000] {reddit_processing_pipeline.py:98} INFO - Successfully loaded 112 records from raw/reddit_20251022.csv
+[2025-12-11T01:44:15.835+0000] {reddit_processing_pipeline.py:94} INFO - Downloading raw/reddit_20251023.csv from bucket reddit-s3
+[2025-12-11T01:44:16.583+0000] {reddit_processing_pipeline.py:98} INFO - Successfully loaded 103 records from raw/reddit_20251023.csv
+[2025-12-11T01:44:16.610+0000] {reddit_processing_pipeline.py:94} INFO - Downloading raw/reddit_20251024.csv from bucket reddit-s3
+[2025-12-11T01:44:17.559+0000] {reddit_processing_pipeline.py:98} INFO - Successfully loaded 134 records from raw/reddit_20251024.csv
+[2025-12-11T01:44:17.599+0000] {reddit_processing_pipeline.py:94} INFO - Downloading raw/reddit_20251025.csv from bucket reddit-s3
+[2025-12-11T01:44:18.584+0000] {reddit_processing_pipeline.py:98} INFO - Successfully loaded 142 records from raw/reddit_20251025.csv
+[2025-12-11T01:44:18.630+0000] {reddit_processing_pipeline.py:94} INFO - Downloading raw/reddit_20251026.csv from bucket reddit-s3
+[2025-12-11T01:44:21.326+0000] {reddit_processing_pipeline.py:98} INFO - Successfully loaded 144 records from raw/reddit_20251026.csv
+[2025-12-11T01:44:21.340+0000] {reddit_processing_pipeline.py:94} INFO - Downloading raw/reddit_20251027.csv from bucket reddit-s3
+[2025-12-11T01:44:22.443+0000] {reddit_processing_pipeline.py:98} INFO - Successfully loaded 159 records from raw/reddit_20251027.csv
+[2025-12-11T01:44:22.473+0000] {reddit_processing_pipeline.py:94} INFO - Downloading raw/reddit_20251028.csv from bucket reddit-s3
+[2025-12-11T01:44:24.258+0000] {reddit_processing_pipeline.py:98} INFO - Successfully loaded 138 records from raw/reddit_20251028.csv
+[2025-12-11T01:44:24.299+0000] {reddit_processing_pipeline.py:94} INFO - Downloading raw/reddit_20251029.csv from bucket reddit-s3
+[2025-12-11T01:44:25.982+0000] {reddit_processing_pipeline.py:98} INFO - Successfully loaded 166 records from raw/reddit_20251029.csv
+[2025-12-11T01:44:26.017+0000] {reddit_processing_pipeline.py:94} INFO - Downloading raw/reddit_20251030.csv from bucket reddit-s3
+[2025-12-11T01:44:28.903+0000] {reddit_processing_pipeline.py:98} INFO - Successfully loaded 152 records from raw/reddit_20251030.csv
+[2025-12-11T01:44:28.919+0000] {reddit_processing_pipeline.py:94} INFO - Downloading raw/reddit_20251031.csv from bucket reddit-s3
+[2025-12-11T01:44:31.814+0000] {reddit_processing_pipeline.py:98} INFO - Successfully loaded 138 records from raw/reddit_20251031.csv
+[2025-12-11T01:44:31.834+0000] {reddit_processing_pipeline.py:128} INFO - Combined 52 files into 12394 total records
+[2025-12-11T01:44:31.836+0000] {reddit_processing_pipeline.py:432} INFO - STEP 3: Cleaning data...
+[2025-12-11T01:44:31.839+0000] {reddit_processing_pipeline.py:135} INFO - Starting data cleaning...
+[2025-12-11T01:44:31.847+0000] {reddit_processing_pipeline.py:138} INFO - Removed 0 duplicate records
+[2025-12-11T01:44:31.883+0000] {reddit_processing_pipeline.py:147} INFO - Cleaned data: 12394 records remaining
+[2025-12-11T01:44:31.883+0000] {reddit_processing_pipeline.py:436} INFO - STEP 4: Performing sentiment analysis...
+[2025-12-11T01:44:31.884+0000] {reddit_processing_pipeline.py:236} INFO - Initializing enhanced sentiment analysis...
+[2025-12-11T01:44:38.672+0000] {log.py:232} WARNING - Device set to use cpu
+[2025-12-11T01:44:38.679+0000] {reddit_processing_pipeline.py:246} INFO - Running enhanced sentiment analysis on 12394 records...
+[2025-12-11T01:44:38.680+0000] {reddit_processing_pipeline.py:250} WARNING - Processing first 1000 records
+[2025-12-11T01:46:30.548+0000] {reddit_processing_pipeline.py:310} INFO - Processed batch 10/125
+[2025-12-11T01:48:17.227+0000] {reddit_processing_pipeline.py:310} INFO - Processed batch 20/125
+[2025-12-11T01:50:05.528+0000] {reddit_processing_pipeline.py:310} INFO - Processed batch 30/125
+[2025-12-11T01:52:04.760+0000] {reddit_processing_pipeline.py:310} INFO - Processed batch 40/125
+[2025-12-11T01:53:52.154+0000] {reddit_processing_pipeline.py:310} INFO - Processed batch 50/125
+[2025-12-11T01:55:41.067+0000] {reddit_processing_pipeline.py:310} INFO - Processed batch 60/125
+[2025-12-11T01:57:38.628+0000] {reddit_processing_pipeline.py:310} INFO - Processed batch 70/125
+[2025-12-11T01:59:27.033+0000] {reddit_processing_pipeline.py:310} INFO - Processed batch 80/125
+[2025-12-11T02:01:08.963+0000] {reddit_processing_pipeline.py:310} INFO - Processed batch 90/125
+[2025-12-11T02:02:13.728+0000] {reddit_processing_pipeline.py:310} INFO - Processed batch 100/125
+[2025-12-11T02:03:06.955+0000] {reddit_processing_pipeline.py:310} INFO - Processed batch 110/125
+[2025-12-11T02:03:19.115+0000] {reddit_processing_pipeline.py:310} INFO - Processed batch 120/125
+[2025-12-11T02:03:20.062+0000] {reddit_processing_pipeline.py:310} INFO - Processed batch 125/125
+[2025-12-11T02:03:20.086+0000] {reddit_processing_pipeline.py:341} INFO - Enhanced sentiment analysis completed!
+[2025-12-11T02:03:20.088+0000] {reddit_processing_pipeline.py:342} INFO - 
+Sentiment distribution:
+sentiment
+NEUTRAL     11394
+NEGATIVE      689
+POSITIVE      311
+Name: count, dtype: int64
+[2025-12-11T02:03:20.090+0000] {reddit_processing_pipeline.py:343} INFO - 
+Narrative distribution:
+narrative_frame
+general_discussion      12167
+youth_empowerment         121
+government_criticism       37
+anti_corruption            28
+media_freedom              25
+reform_advocacy            16
+Name: count, dtype: int64
+[2025-12-11T02:03:20.091+0000] {reddit_processing_pipeline.py:344} INFO - 
+Dominant emotion distribution:
+dominant_emotion
+neutral        11394
+anger            860
+hope              69
+frustration       30
+joy               18
+fear              12
+sadness           11
+Name: count, dtype: int64
+[2025-12-11T02:03:20.102+0000] {reddit_processing_pipeline.py:440} INFO - STEP 5: Saving to S3...
+[2025-12-11T02:03:20.216+0000] {reddit_processing_pipeline.py:361} INFO - Uploading processed data to S3: processed/after_phase_20250910_20251031_processed.csv
+[2025-12-11T02:03:40.411+0000] {reddit_processing_pipeline.py:367} INFO - Successfully uploaded processed data to S3
+[2025-12-11T02:03:40.415+0000] {reddit_processing_pipeline.py:445} INFO - STEP 6: Saving to Postgres...
+[2025-12-11T02:03:40.415+0000] {reddit_processing_pipeline.py:385} INFO - Connecting to Postgres database...
+[2025-12-11T02:03:40.419+0000] {reddit_processing_pipeline.py:391} INFO - Saving 12394 records to Postgres table 'reddit_sentiment' with phase 'after'
+[2025-12-11T02:03:52.097+0000] {reddit_processing_pipeline.py:394} INFO - Successfully saved to Postgres!
+[2025-12-11T02:03:52.098+0000] {reddit_processing_pipeline.py:448} INFO - ============================================================
+[2025-12-11T02:03:52.098+0000] {reddit_processing_pipeline.py:449} INFO - PHASE AFTER COMPLETED SUCCESSFULLY!
+[2025-12-11T02:03:52.098+0000] {reddit_processing_pipeline.py:450} INFO - Processed 12394 records from 52 files
+[2025-12-11T02:03:52.098+0000] {reddit_processing_pipeline.py:451} INFO - ============================================================
+[2025-12-11T02:03:52.100+0000] {python.py:194} INFO - Done. Returned value was: Processed 12394 records for phase after
+[2025-12-11T02:03:52.114+0000] {taskinstance.py:1398} INFO - Marking task as SUCCESS. dag_id=process_protest_phase_data, task_id=process_after_protest, execution_date=20251211T014126, start_date=20251211T014131, end_date=20251211T020352
+[2025-12-11T02:03:52.140+0000] {local_task_job_runner.py:228} INFO - Task exited with return code 0
+[2025-12-11T02:03:52.151+0000] {taskinstance.py:2776} INFO - 0 downstream tasks scheduled from follow-on schedule check

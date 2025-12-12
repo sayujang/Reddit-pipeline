@@ -1,0 +1,39 @@
+[2025-12-09T05:17:52.434+0000] {taskinstance.py:1157} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: etl_reddit_historical.process_pre_protest manual__2025-12-09T05:11:57.679557+00:00 [queued]>
+[2025-12-09T05:17:52.440+0000] {taskinstance.py:1157} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: etl_reddit_historical.process_pre_protest manual__2025-12-09T05:11:57.679557+00:00 [queued]>
+[2025-12-09T05:17:52.440+0000] {taskinstance.py:1359} INFO - Starting attempt 2 of 3
+[2025-12-09T05:17:52.448+0000] {taskinstance.py:1380} INFO - Executing <Task(PythonOperator): process_pre_protest> on 2025-12-09 05:11:57.679557+00:00
+[2025-12-09T05:17:52.457+0000] {standard_task_runner.py:57} INFO - Started process 85 to run task
+[2025-12-09T05:17:52.460+0000] {standard_task_runner.py:84} INFO - Running: ['airflow', 'tasks', 'run', 'etl_reddit_historical', 'process_pre_protest', 'manual__2025-12-09T05:11:57.679557+00:00', '--job-id', '10', '--raw', '--subdir', 'DAGS_FOLDER/redditdag.py', '--cfg-path', '/tmp/tmpkrwz57g5']
+[2025-12-09T05:17:52.463+0000] {standard_task_runner.py:85} INFO - Job 10: Subtask process_pre_protest
+[2025-12-09T05:17:52.494+0000] {task_command.py:415} INFO - Running <TaskInstance: etl_reddit_historical.process_pre_protest manual__2025-12-09T05:11:57.679557+00:00 [running]> on host 5ec72ba6b8f6
+[2025-12-09T05:17:52.537+0000] {taskinstance.py:1660} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='Sayuj Chapagain' AIRFLOW_CTX_DAG_ID='etl_reddit_historical' AIRFLOW_CTX_TASK_ID='process_pre_protest' AIRFLOW_CTX_EXECUTION_DATE='2025-12-09T05:11:57.679557+00:00' AIRFLOW_CTX_TRY_NUMBER='2' AIRFLOW_CTX_DAG_RUN_ID='manual__2025-12-09T05:11:57.679557+00:00'
+[2025-12-09T05:17:52.538+0000] {reddit_processing_pipeline.py:382} INFO - ==================================================
+[2025-12-09T05:17:52.539+0000] {reddit_processing_pipeline.py:383} INFO - STEP 1: Downloading raw data from S3
+[2025-12-09T05:17:52.539+0000] {reddit_processing_pipeline.py:384} INFO - ==================================================
+[2025-12-09T05:17:52.597+0000] {reddit_processing_pipeline.py:41} INFO - Downloading raw/reddit_pre_protest_jun_aug_2025.csv from bucket reddit-s3
+[2025-12-09T05:17:53.461+0000] {reddit_processing_pipeline.py:48} ERROR - Error downloading from S3: An error occurred (NoSuchKey) when calling the GetObject operation: The specified key does not exist.
+[2025-12-09T05:17:53.462+0000] {reddit_processing_pipeline.py:418} ERROR - Pipeline failed: An error occurred (NoSuchKey) when calling the GetObject operation: The specified key does not exist.
+[2025-12-09T05:17:53.462+0000] {taskinstance.py:1935} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/operators/python.py", line 192, in execute
+    return_value = self.execute_callable()
+                   ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/operators/python.py", line 209, in execute_callable
+    return self.python_callable(*self.op_args, **self.op_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/airflow/pipelines/reddit_processing_pipeline.py", line 385, in reddit_processing_pipeline
+    df = download_from_s3(bucket_name, raw_file_key)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/airflow/pipelines/reddit_processing_pipeline.py", line 42, in download_from_s3
+    response = s3_client.get_object(Bucket=bucket_name, Key=file_key)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/botocore/client.py", line 535, in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/botocore/client.py", line 980, in _make_api_call
+    raise error_class(parsed_response, operation_name)
+botocore.errorfactory.NoSuchKey: An error occurred (NoSuchKey) when calling the GetObject operation: The specified key does not exist.
+[2025-12-09T05:17:53.473+0000] {taskinstance.py:1398} INFO - Marking task as UP_FOR_RETRY. dag_id=etl_reddit_historical, task_id=process_pre_protest, execution_date=20251209T051157, start_date=20251209T051752, end_date=20251209T051753
+[2025-12-09T05:17:53.493+0000] {standard_task_runner.py:104} ERROR - Failed to execute job 10 for task process_pre_protest (An error occurred (NoSuchKey) when calling the GetObject operation: The specified key does not exist.; 85)
+[2025-12-09T05:17:53.542+0000] {local_task_job_runner.py:228} INFO - Task exited with return code 1
+[2025-12-09T05:17:53.564+0000] {taskinstance.py:2776} INFO - 0 downstream tasks scheduled from follow-on schedule check
