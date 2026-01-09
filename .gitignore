@@ -1,2 +1,6 @@
 *.conf
 config/config.conf
+.env
+venv/
+__pycache__/
+*.pyc
