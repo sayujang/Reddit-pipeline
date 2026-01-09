@@ -9302,3 +9302,67 @@ DETAIL:  Key (dag_id)=(process_protest_phase_data) already exists.
 [2026-01-09T15:15:09.167+0000] {logging_mixin.py:151} INFO - [2026-01-09T15:15:09.166+0000] {dag.py:3696} INFO - Setting next_dagrun for etl_reddit_pipeline_realtime to 2026-01-09T00:00:00+00:00, run_after=2026-01-10T00:00:00+00:00
 [2026-01-09T15:15:09.168+0000] {logging_mixin.py:151} INFO - [2026-01-09T15:15:09.168+0000] {dag.py:3696} INFO - Setting next_dagrun for process_protest_phase_data to None, run_after=None
 [2026-01-09T15:15:09.174+0000] {processor.py:179} INFO - Processing /opt/airflow/dags/redditdag.py took 3.534 seconds
+[2026-01-09T15:15:39.381+0000] {processor.py:157} INFO - Started process (PID=2335) to work on /opt/airflow/dags/redditdag.py
+[2026-01-09T15:15:39.382+0000] {processor.py:829} INFO - Processing file /opt/airflow/dags/redditdag.py for tasks to queue
+[2026-01-09T15:15:39.386+0000] {logging_mixin.py:151} INFO - [2026-01-09T15:15:39.385+0000] {dagbag.py:539} INFO - Filling up the DagBag from /opt/airflow/dags/redditdag.py
+[2026-01-09T15:15:42.614+0000] {processor.py:839} INFO - DAG(s) dict_keys(['process_protest_phase_data', 'etl_reddit_pipeline_realtime']) retrieved from /opt/airflow/dags/redditdag.py
+[2026-01-09T15:15:42.627+0000] {logging_mixin.py:151} INFO - [2026-01-09T15:15:42.627+0000] {dag.py:2915} INFO - Sync 2 DAGs
+[2026-01-09T15:15:42.638+0000] {logging_mixin.py:151} INFO - [2026-01-09T15:15:42.638+0000] {dag.py:3696} INFO - Setting next_dagrun for etl_reddit_pipeline_realtime to 2026-01-09T00:00:00+00:00, run_after=2026-01-10T00:00:00+00:00
+[2026-01-09T15:15:42.639+0000] {logging_mixin.py:151} INFO - [2026-01-09T15:15:42.639+0000] {dag.py:3696} INFO - Setting next_dagrun for process_protest_phase_data to None, run_after=None
+[2026-01-09T15:15:42.653+0000] {processor.py:179} INFO - Processing /opt/airflow/dags/redditdag.py took 3.277 seconds
+[2026-01-09T15:16:12.857+0000] {processor.py:157} INFO - Started process (PID=2337) to work on /opt/airflow/dags/redditdag.py
+[2026-01-09T15:16:12.858+0000] {processor.py:829} INFO - Processing file /opt/airflow/dags/redditdag.py for tasks to queue
+[2026-01-09T15:16:12.862+0000] {logging_mixin.py:151} INFO - [2026-01-09T15:16:12.861+0000] {dagbag.py:539} INFO - Filling up the DagBag from /opt/airflow/dags/redditdag.py
+[2026-01-09T15:16:16.128+0000] {processor.py:839} INFO - DAG(s) dict_keys(['process_protest_phase_data', 'etl_reddit_pipeline_realtime']) retrieved from /opt/airflow/dags/redditdag.py
+[2026-01-09T15:16:16.141+0000] {logging_mixin.py:151} INFO - [2026-01-09T15:16:16.141+0000] {dag.py:2915} INFO - Sync 2 DAGs
+[2026-01-09T15:16:16.152+0000] {logging_mixin.py:151} INFO - [2026-01-09T15:16:16.152+0000] {dag.py:3696} INFO - Setting next_dagrun for etl_reddit_pipeline_realtime to 2026-01-09T00:00:00+00:00, run_after=2026-01-10T00:00:00+00:00
+[2026-01-09T15:16:16.154+0000] {logging_mixin.py:151} INFO - [2026-01-09T15:16:16.153+0000] {dag.py:3696} INFO - Setting next_dagrun for process_protest_phase_data to None, run_after=None
+[2026-01-09T15:16:16.168+0000] {processor.py:179} INFO - Processing /opt/airflow/dags/redditdag.py took 3.316 seconds
+[2026-01-09T15:16:46.375+0000] {processor.py:157} INFO - Started process (PID=2339) to work on /opt/airflow/dags/redditdag.py
+[2026-01-09T15:16:46.376+0000] {processor.py:829} INFO - Processing file /opt/airflow/dags/redditdag.py for tasks to queue
+[2026-01-09T15:16:46.377+0000] {logging_mixin.py:151} INFO - [2026-01-09T15:16:46.377+0000] {dagbag.py:539} INFO - Filling up the DagBag from /opt/airflow/dags/redditdag.py
+[2026-01-09T15:16:49.624+0000] {processor.py:839} INFO - DAG(s) dict_keys(['process_protest_phase_data', 'etl_reddit_pipeline_realtime']) retrieved from /opt/airflow/dags/redditdag.py
+[2026-01-09T15:16:49.637+0000] {logging_mixin.py:151} INFO - [2026-01-09T15:16:49.637+0000] {dag.py:2915} INFO - Sync 2 DAGs
+[2026-01-09T15:16:49.650+0000] {logging_mixin.py:151} INFO - [2026-01-09T15:16:49.650+0000] {dag.py:3696} INFO - Setting next_dagrun for etl_reddit_pipeline_realtime to 2026-01-09T00:00:00+00:00, run_after=2026-01-10T00:00:00+00:00
+[2026-01-09T15:16:49.652+0000] {logging_mixin.py:151} INFO - [2026-01-09T15:16:49.651+0000] {dag.py:3696} INFO - Setting next_dagrun for process_protest_phase_data to None, run_after=None
+[2026-01-09T15:16:49.665+0000] {processor.py:179} INFO - Processing /opt/airflow/dags/redditdag.py took 3.292 seconds
+[2026-01-09T15:17:19.862+0000] {processor.py:157} INFO - Started process (PID=2341) to work on /opt/airflow/dags/redditdag.py
+[2026-01-09T15:17:19.862+0000] {processor.py:829} INFO - Processing file /opt/airflow/dags/redditdag.py for tasks to queue
+[2026-01-09T15:17:19.863+0000] {logging_mixin.py:151} INFO - [2026-01-09T15:17:19.863+0000] {dagbag.py:539} INFO - Filling up the DagBag from /opt/airflow/dags/redditdag.py
+[2026-01-09T15:17:23.115+0000] {processor.py:839} INFO - DAG(s) dict_keys(['etl_reddit_pipeline_realtime', 'process_protest_phase_data']) retrieved from /opt/airflow/dags/redditdag.py
+[2026-01-09T15:17:23.129+0000] {logging_mixin.py:151} INFO - [2026-01-09T15:17:23.128+0000] {dag.py:2915} INFO - Sync 2 DAGs
+[2026-01-09T15:17:23.139+0000] {logging_mixin.py:151} INFO - [2026-01-09T15:17:23.139+0000] {dag.py:3696} INFO - Setting next_dagrun for etl_reddit_pipeline_realtime to 2026-01-09T00:00:00+00:00, run_after=2026-01-10T00:00:00+00:00
+[2026-01-09T15:17:23.141+0000] {logging_mixin.py:151} INFO - [2026-01-09T15:17:23.140+0000] {dag.py:3696} INFO - Setting next_dagrun for process_protest_phase_data to None, run_after=None
+[2026-01-09T15:17:23.154+0000] {processor.py:179} INFO - Processing /opt/airflow/dags/redditdag.py took 3.296 seconds
+[2026-01-09T15:17:53.360+0000] {processor.py:157} INFO - Started process (PID=2343) to work on /opt/airflow/dags/redditdag.py
+[2026-01-09T15:17:53.360+0000] {processor.py:829} INFO - Processing file /opt/airflow/dags/redditdag.py for tasks to queue
+[2026-01-09T15:17:53.361+0000] {logging_mixin.py:151} INFO - [2026-01-09T15:17:53.361+0000] {dagbag.py:539} INFO - Filling up the DagBag from /opt/airflow/dags/redditdag.py
+[2026-01-09T15:17:56.587+0000] {processor.py:839} INFO - DAG(s) dict_keys(['etl_reddit_pipeline_realtime', 'process_protest_phase_data']) retrieved from /opt/airflow/dags/redditdag.py
+[2026-01-09T15:17:56.600+0000] {logging_mixin.py:151} INFO - [2026-01-09T15:17:56.600+0000] {dag.py:2915} INFO - Sync 2 DAGs
+[2026-01-09T15:17:56.611+0000] {logging_mixin.py:151} INFO - [2026-01-09T15:17:56.610+0000] {dag.py:3696} INFO - Setting next_dagrun for etl_reddit_pipeline_realtime to 2026-01-09T00:00:00+00:00, run_after=2026-01-10T00:00:00+00:00
+[2026-01-09T15:17:56.612+0000] {logging_mixin.py:151} INFO - [2026-01-09T15:17:56.612+0000] {dag.py:3696} INFO - Setting next_dagrun for process_protest_phase_data to None, run_after=None
+[2026-01-09T15:17:56.625+0000] {processor.py:179} INFO - Processing /opt/airflow/dags/redditdag.py took 3.268 seconds
+[2026-01-09T15:18:26.818+0000] {processor.py:157} INFO - Started process (PID=2345) to work on /opt/airflow/dags/redditdag.py
+[2026-01-09T15:18:26.818+0000] {processor.py:829} INFO - Processing file /opt/airflow/dags/redditdag.py for tasks to queue
+[2026-01-09T15:18:26.819+0000] {logging_mixin.py:151} INFO - [2026-01-09T15:18:26.819+0000] {dagbag.py:539} INFO - Filling up the DagBag from /opt/airflow/dags/redditdag.py
+[2026-01-09T15:18:30.025+0000] {processor.py:839} INFO - DAG(s) dict_keys(['etl_reddit_pipeline_realtime', 'process_protest_phase_data']) retrieved from /opt/airflow/dags/redditdag.py
+[2026-01-09T15:18:30.038+0000] {logging_mixin.py:151} INFO - [2026-01-09T15:18:30.038+0000] {dag.py:2915} INFO - Sync 2 DAGs
+[2026-01-09T15:18:30.049+0000] {logging_mixin.py:151} INFO - [2026-01-09T15:18:30.048+0000] {dag.py:3696} INFO - Setting next_dagrun for etl_reddit_pipeline_realtime to 2026-01-09T00:00:00+00:00, run_after=2026-01-10T00:00:00+00:00
+[2026-01-09T15:18:30.050+0000] {logging_mixin.py:151} INFO - [2026-01-09T15:18:30.050+0000] {dag.py:3696} INFO - Setting next_dagrun for process_protest_phase_data to None, run_after=None
+[2026-01-09T15:18:30.063+0000] {processor.py:179} INFO - Processing /opt/airflow/dags/redditdag.py took 3.250 seconds
+[2026-01-09T15:19:00.261+0000] {processor.py:157} INFO - Started process (PID=2347) to work on /opt/airflow/dags/redditdag.py
+[2026-01-09T15:19:00.261+0000] {processor.py:829} INFO - Processing file /opt/airflow/dags/redditdag.py for tasks to queue
+[2026-01-09T15:19:00.263+0000] {logging_mixin.py:151} INFO - [2026-01-09T15:19:00.263+0000] {dagbag.py:539} INFO - Filling up the DagBag from /opt/airflow/dags/redditdag.py
+[2026-01-09T15:19:03.624+0000] {processor.py:839} INFO - DAG(s) dict_keys(['etl_reddit_pipeline_realtime', 'process_protest_phase_data']) retrieved from /opt/airflow/dags/redditdag.py
+[2026-01-09T15:19:03.638+0000] {logging_mixin.py:151} INFO - [2026-01-09T15:19:03.637+0000] {dag.py:2915} INFO - Sync 2 DAGs
+[2026-01-09T15:19:03.650+0000] {logging_mixin.py:151} INFO - [2026-01-09T15:19:03.650+0000] {dag.py:3696} INFO - Setting next_dagrun for etl_reddit_pipeline_realtime to 2026-01-09T00:00:00+00:00, run_after=2026-01-10T00:00:00+00:00
+[2026-01-09T15:19:03.652+0000] {logging_mixin.py:151} INFO - [2026-01-09T15:19:03.652+0000] {dag.py:3696} INFO - Setting next_dagrun for process_protest_phase_data to None, run_after=None
+[2026-01-09T15:19:03.666+0000] {processor.py:179} INFO - Processing /opt/airflow/dags/redditdag.py took 3.407 seconds
+[2026-01-09T15:19:33.860+0000] {processor.py:157} INFO - Started process (PID=2349) to work on /opt/airflow/dags/redditdag.py
+[2026-01-09T15:19:33.860+0000] {processor.py:829} INFO - Processing file /opt/airflow/dags/redditdag.py for tasks to queue
+[2026-01-09T15:19:33.861+0000] {logging_mixin.py:151} INFO - [2026-01-09T15:19:33.861+0000] {dagbag.py:539} INFO - Filling up the DagBag from /opt/airflow/dags/redditdag.py
+[2026-01-09T15:19:37.132+0000] {processor.py:839} INFO - DAG(s) dict_keys(['process_protest_phase_data', 'etl_reddit_pipeline_realtime']) retrieved from /opt/airflow/dags/redditdag.py
+[2026-01-09T15:19:37.146+0000] {logging_mixin.py:151} INFO - [2026-01-09T15:19:37.145+0000] {dag.py:2915} INFO - Sync 2 DAGs
+[2026-01-09T15:19:37.158+0000] {logging_mixin.py:151} INFO - [2026-01-09T15:19:37.158+0000] {dag.py:3696} INFO - Setting next_dagrun for etl_reddit_pipeline_realtime to 2026-01-09T00:00:00+00:00, run_after=2026-01-10T00:00:00+00:00
+[2026-01-09T15:19:37.159+0000] {logging_mixin.py:151} INFO - [2026-01-09T15:19:37.159+0000] {dag.py:3696} INFO - Setting next_dagrun for process_protest_phase_data to None, run_after=None
+[2026-01-09T15:19:37.172+0000] {processor.py:179} INFO - Processing /opt/airflow/dags/redditdag.py took 3.315 seconds
