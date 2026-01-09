@@ -1,0 +1,39 @@
+[2026-01-09T04:51:54.894+0000] {taskinstance.py:1157} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: etl_reddit_pipeline_realtime.reddit_extraction manual__2026-01-09T04:46:42.521172+00:00 [queued]>
+[2026-01-09T04:51:54.898+0000] {taskinstance.py:1157} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: etl_reddit_pipeline_realtime.reddit_extraction manual__2026-01-09T04:46:42.521172+00:00 [queued]>
+[2026-01-09T04:51:54.898+0000] {taskinstance.py:1359} INFO - Starting attempt 2 of 3
+[2026-01-09T04:51:54.903+0000] {taskinstance.py:1380} INFO - Executing <Task(PythonOperator): reddit_extraction> on 2026-01-09 04:46:42.521172+00:00
+[2026-01-09T04:51:54.917+0000] {standard_task_runner.py:57} INFO - Started process 66 to run task
+[2026-01-09T04:51:54.920+0000] {standard_task_runner.py:84} INFO - Running: ['airflow', 'tasks', 'run', 'etl_reddit_pipeline_realtime', 'reddit_extraction', 'manual__2026-01-09T04:46:42.521172+00:00', '--job-id', '4', '--raw', '--subdir', 'DAGS_FOLDER/redditdag.py', '--cfg-path', '/tmp/tmpisbuzios']
+[2026-01-09T04:51:54.922+0000] {standard_task_runner.py:85} INFO - Job 4: Subtask reddit_extraction
+[2026-01-09T04:51:54.947+0000] {task_command.py:415} INFO - Running <TaskInstance: etl_reddit_pipeline_realtime.reddit_extraction manual__2026-01-09T04:46:42.521172+00:00 [running]> on host ed4467f9d7c9
+[2026-01-09T04:51:54.984+0000] {taskinstance.py:1660} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='Sayuj Chapagain' AIRFLOW_CTX_DAG_ID='etl_reddit_pipeline_realtime' AIRFLOW_CTX_TASK_ID='reddit_extraction' AIRFLOW_CTX_EXECUTION_DATE='2026-01-09T04:46:42.521172+00:00' AIRFLOW_CTX_TRY_NUMBER='2' AIRFLOW_CTX_DAG_RUN_ID='manual__2026-01-09T04:46:42.521172+00:00'
+[2026-01-09T04:51:54.986+0000] {logging_mixin.py:151} INFO - connected to reddit!
+[2026-01-09T04:51:54.986+0000] {logging_mixin.py:151} INFO - <praw.models.listing.generator.ListingGenerator object at 0x783b76a13050>
+[2026-01-09T04:51:59.469+0000] {taskinstance.py:1935} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/operators/python.py", line 192, in execute
+    return_value = self.execute_callable()
+                   ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/operators/python.py", line 209, in execute_callable
+    return self.python_callable(*self.op_args, **self.op_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/airflow/pipelines/reddit_pipeline.py", line 12, in reddit_pipeline
+    load_data_to_csv(post_df, file_path)
+  File "/opt/airflow/etls/reddit_etl.py", line 55, in load_data_to_csv
+    data.to_csv(path, index=False)
+  File "/home/airflow/.local/lib/python3.11/site-packages/pandas/core/generic.py", line 3902, in to_csv
+    return DataFrameRenderer(formatter).to_csv(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/pandas/io/formats/format.py", line 1152, in to_csv
+    csv_formatter.save()
+  File "/home/airflow/.local/lib/python3.11/site-packages/pandas/io/formats/csvs.py", line 247, in save
+    with get_handle(
+         ^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/pandas/io/common.py", line 863, in get_handle
+    handle = open(
+             ^^^^^
+PermissionError: [Errno 13] Permission denied: '/opt/airflow/data/output/reddit_20260109.csv'
+[2026-01-09T04:51:59.477+0000] {taskinstance.py:1398} INFO - Marking task as UP_FOR_RETRY. dag_id=etl_reddit_pipeline_realtime, task_id=reddit_extraction, execution_date=20260109T044642, start_date=20260109T045154, end_date=20260109T045159
+[2026-01-09T04:51:59.490+0000] {standard_task_runner.py:104} ERROR - Failed to execute job 4 for task reddit_extraction ([Errno 13] Permission denied: '/opt/airflow/data/output/reddit_20260109.csv'; 66)
+[2026-01-09T04:51:59.507+0000] {local_task_job_runner.py:228} INFO - Task exited with return code 1
+[2026-01-09T04:51:59.521+0000] {taskinstance.py:2776} INFO - 0 downstream tasks scheduled from follow-on schedule check

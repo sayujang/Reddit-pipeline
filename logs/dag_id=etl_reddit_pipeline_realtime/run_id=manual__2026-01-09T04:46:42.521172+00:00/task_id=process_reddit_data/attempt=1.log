@@ -1,0 +1,61 @@
+[2026-01-09T05:03:36.759+0000] {taskinstance.py:1157} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: etl_reddit_pipeline_realtime.process_reddit_data manual__2026-01-09T04:46:42.521172+00:00 [queued]>
+[2026-01-09T05:03:36.763+0000] {taskinstance.py:1157} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: etl_reddit_pipeline_realtime.process_reddit_data manual__2026-01-09T04:46:42.521172+00:00 [queued]>
+[2026-01-09T05:03:36.763+0000] {taskinstance.py:1359} INFO - Starting attempt 1 of 3
+[2026-01-09T05:03:36.769+0000] {taskinstance.py:1380} INFO - Executing <Task(PythonOperator): process_reddit_data> on 2026-01-09 04:46:42.521172+00:00
+[2026-01-09T05:03:36.782+0000] {standard_task_runner.py:57} INFO - Started process 96 to run task
+[2026-01-09T05:03:36.784+0000] {standard_task_runner.py:84} INFO - Running: ['airflow', 'tasks', 'run', 'etl_reddit_pipeline_realtime', 'process_reddit_data', 'manual__2026-01-09T04:46:42.521172+00:00', '--job-id', '12', '--raw', '--subdir', 'DAGS_FOLDER/redditdag.py', '--cfg-path', '/tmp/tmplga128nv']
+[2026-01-09T05:03:36.786+0000] {standard_task_runner.py:85} INFO - Job 12: Subtask process_reddit_data
+[2026-01-09T05:03:36.810+0000] {task_command.py:415} INFO - Running <TaskInstance: etl_reddit_pipeline_realtime.process_reddit_data manual__2026-01-09T04:46:42.521172+00:00 [running]> on host ed4467f9d7c9
+[2026-01-09T05:03:36.849+0000] {taskinstance.py:1660} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='Sayuj Chapagain' AIRFLOW_CTX_DAG_ID='etl_reddit_pipeline_realtime' AIRFLOW_CTX_TASK_ID='process_reddit_data' AIRFLOW_CTX_EXECUTION_DATE='2026-01-09T04:46:42.521172+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2026-01-09T04:46:42.521172+00:00'
+[2026-01-09T05:03:36.850+0000] {reddit_processing_pipeline.py:472} INFO - ==================================================
+[2026-01-09T05:03:36.850+0000] {reddit_processing_pipeline.py:473} INFO - PROCESSING SINGLE FILE: reddit_20260109
+[2026-01-09T05:03:36.850+0000] {reddit_processing_pipeline.py:474} INFO - PHASE: REALTIME
+[2026-01-09T05:03:36.850+0000] {reddit_processing_pipeline.py:475} INFO - ==================================================
+[2026-01-09T05:03:36.850+0000] {reddit_processing_pipeline.py:477} INFO - STEP 1: Downloading raw data from S3
+[2026-01-09T05:03:36.931+0000] {reddit_processing_pipeline.py:94} INFO - Downloading raw/reddit_20260109.csv from bucket reddit-s3
+[2026-01-09T05:03:41.511+0000] {reddit_processing_pipeline.py:98} INFO - Successfully loaded 40 records from raw/reddit_20260109.csv
+[2026-01-09T05:03:41.512+0000] {reddit_processing_pipeline.py:484} INFO - STEP 2: Cleaning data
+[2026-01-09T05:03:41.513+0000] {reddit_processing_pipeline.py:135} INFO - Starting data cleaning...
+[2026-01-09T05:03:41.514+0000] {reddit_processing_pipeline.py:138} INFO - Removed 0 duplicate records
+[2026-01-09T05:03:41.517+0000] {reddit_processing_pipeline.py:147} INFO - Cleaned data: 40 records remaining
+[2026-01-09T05:03:41.517+0000] {reddit_processing_pipeline.py:487} INFO - STEP 3: Performing sentiment analysis
+[2026-01-09T05:03:41.517+0000] {reddit_processing_pipeline.py:236} INFO - Initializing enhanced sentiment analysis...
+[2026-01-09T05:04:26.290+0000] {log.py:232} WARNING - Device set to use cpu
+[2026-01-09T05:04:26.290+0000] {reddit_processing_pipeline.py:246} INFO - Running enhanced sentiment analysis on 40 records...
+[2026-01-09T05:04:27.156+0000] {reddit_processing_pipeline.py:310} INFO - Processed batch 5/5
+[2026-01-09T05:04:27.167+0000] {reddit_processing_pipeline.py:341} INFO - Enhanced sentiment analysis completed!
+[2026-01-09T05:04:27.167+0000] {reddit_processing_pipeline.py:342} INFO - 
+Sentiment distribution:
+sentiment
+NEGATIVE    28
+POSITIVE    12
+Name: count, dtype: int64
+[2026-01-09T05:04:27.168+0000] {reddit_processing_pipeline.py:343} INFO - 
+Narrative distribution:
+narrative_frame
+general_discussion      36
+youth_empowerment        2
+government_criticism     1
+media_freedom            1
+Name: count, dtype: int64
+[2026-01-09T05:04:27.168+0000] {reddit_processing_pipeline.py:344} INFO - 
+Dominant emotion distribution:
+dominant_emotion
+anger          38
+frustration     1
+hope            1
+Name: count, dtype: int64
+[2026-01-09T05:04:27.175+0000] {reddit_processing_pipeline.py:490} INFO - STEP 4: Saving to S3
+[2026-01-09T05:04:27.180+0000] {reddit_processing_pipeline.py:361} INFO - Uploading processed data to S3: processed/reddit_20260109_processed.csv
+[2026-01-09T05:04:30.392+0000] {reddit_processing_pipeline.py:367} INFO - Successfully uploaded processed data to S3
+[2026-01-09T05:04:30.394+0000] {reddit_processing_pipeline.py:493} INFO - STEP 5: Saving to Postgres
+[2026-01-09T05:04:30.395+0000] {reddit_processing_pipeline.py:385} INFO - Connecting to Postgres database...
+[2026-01-09T05:04:30.397+0000] {reddit_processing_pipeline.py:391} INFO - Saving 40 records to Postgres table 'reddit_sentiment' with phase 'realtime'
+[2026-01-09T05:04:30.457+0000] {reddit_processing_pipeline.py:394} INFO - Successfully saved to Postgres!
+[2026-01-09T05:04:30.457+0000] {reddit_processing_pipeline.py:496} INFO - ==================================================
+[2026-01-09T05:04:30.457+0000] {reddit_processing_pipeline.py:497} INFO - PIPELINE COMPLETED SUCCESSFULLY!
+[2026-01-09T05:04:30.457+0000] {reddit_processing_pipeline.py:498} INFO - ==================================================
+[2026-01-09T05:04:30.457+0000] {python.py:194} INFO - Done. Returned value was: Processed 40 records
+[2026-01-09T05:04:30.468+0000] {taskinstance.py:1398} INFO - Marking task as SUCCESS. dag_id=etl_reddit_pipeline_realtime, task_id=process_reddit_data, execution_date=20260109T044642, start_date=20260109T050336, end_date=20260109T050430
+[2026-01-09T05:04:30.515+0000] {local_task_job_runner.py:228} INFO - Task exited with return code 0
+[2026-01-09T05:04:30.523+0000] {taskinstance.py:2776} INFO - 0 downstream tasks scheduled from follow-on schedule check

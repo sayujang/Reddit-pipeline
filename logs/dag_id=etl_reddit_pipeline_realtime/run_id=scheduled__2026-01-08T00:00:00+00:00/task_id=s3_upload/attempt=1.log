@@ -1,0 +1,58 @@
+[2026-01-09T04:54:06.207+0000] {taskinstance.py:1157} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: etl_reddit_pipeline_realtime.s3_upload scheduled__2026-01-08T00:00:00+00:00 [queued]>
+[2026-01-09T04:54:06.211+0000] {taskinstance.py:1157} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: etl_reddit_pipeline_realtime.s3_upload scheduled__2026-01-08T00:00:00+00:00 [queued]>
+[2026-01-09T04:54:06.211+0000] {taskinstance.py:1359} INFO - Starting attempt 1 of 3
+[2026-01-09T04:54:06.217+0000] {taskinstance.py:1380} INFO - Executing <Task(PythonOperator): s3_upload> on 2026-01-08 00:00:00+00:00
+[2026-01-09T04:54:06.231+0000] {standard_task_runner.py:57} INFO - Started process 81 to run task
+[2026-01-09T04:54:06.234+0000] {standard_task_runner.py:84} INFO - Running: ['airflow', 'tasks', 'run', 'etl_reddit_pipeline_realtime', 's3_upload', 'scheduled__2026-01-08T00:00:00+00:00', '--job-id', '9', '--raw', '--subdir', 'DAGS_FOLDER/redditdag.py', '--cfg-path', '/tmp/tmpzd7zp1b1']
+[2026-01-09T04:54:06.236+0000] {standard_task_runner.py:85} INFO - Job 9: Subtask s3_upload
+[2026-01-09T04:54:06.264+0000] {task_command.py:415} INFO - Running <TaskInstance: etl_reddit_pipeline_realtime.s3_upload scheduled__2026-01-08T00:00:00+00:00 [running]> on host ed4467f9d7c9
+[2026-01-09T04:54:06.304+0000] {taskinstance.py:1660} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='Sayuj Chapagain' AIRFLOW_CTX_DAG_ID='etl_reddit_pipeline_realtime' AIRFLOW_CTX_TASK_ID='s3_upload' AIRFLOW_CTX_EXECUTION_DATE='2026-01-08T00:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2026-01-08T00:00:00+00:00'
+[2026-01-09T04:54:15.426+0000] {logging_mixin.py:151} INFO - The AWS Access Key Id you provided does not exist in our records.
+[2026-01-09T04:54:17.026+0000] {taskinstance.py:1935} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.11/site-packages/s3fs/core.py", line 768, in _lsdir
+    async for c in self._iterdir(
+  File "/home/airflow/.local/lib/python3.11/site-packages/s3fs/core.py", line 819, in _iterdir
+    async for i in it:
+  File "/home/airflow/.local/lib/python3.11/site-packages/aiobotocore/paginate.py", line 30, in __anext__
+    response = await self._make_request(current_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/aiobotocore/client.py", line 383, in _make_api_call
+    raise error_class(parsed_response, operation_name)
+botocore.exceptions.ClientError: An error occurred (InvalidAccessKeyId) when calling the ListObjectsV2 operation: The AWS Access Key Id you provided does not exist in our records.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/operators/python.py", line 192, in execute
+    return_value = self.execute_callable()
+                   ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/operators/python.py", line 209, in execute_callable
+    return self.python_callable(*self.op_args, **self.op_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/airflow/pipelines/aws_s3_pipeline.py", line 12, in upload_s3_pipeline
+    upload_to_s3(s3, file_path, AWS_BUCKET_NAME, file_path.split('/')[-1])
+  File "/opt/airflow/etls/aws_etl.py", line 27, in upload_to_s3
+    s3.put(file_path, bucket+'/raw/'+ s3_file_name) #source, destination
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/fsspec/asyn.py", line 118, in wrapper
+    return sync(self.loop, func, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/fsspec/asyn.py", line 103, in sync
+    raise return_result
+  File "/home/airflow/.local/lib/python3.11/site-packages/fsspec/asyn.py", line 56, in _runner
+    result[0] = await coro
+                ^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/fsspec/asyn.py", line 569, in _put
+    trailing_sep(rpath) or await self._isdir(rpath)
+                           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/s3fs/core.py", line 1592, in _isdir
+    return bool(await self._lsdir(path))
+                ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/s3fs/core.py", line 782, in _lsdir
+    raise translate_boto_error(e)
+PermissionError: The AWS Access Key Id you provided does not exist in our records.
+[2026-01-09T04:54:17.033+0000] {taskinstance.py:1398} INFO - Marking task as UP_FOR_RETRY. dag_id=etl_reddit_pipeline_realtime, task_id=s3_upload, execution_date=20260108T000000, start_date=20260109T045406, end_date=20260109T045417
+[2026-01-09T04:54:17.044+0000] {standard_task_runner.py:104} ERROR - Failed to execute job 9 for task s3_upload (The AWS Access Key Id you provided does not exist in our records.; 81)
+[2026-01-09T04:54:17.086+0000] {local_task_job_runner.py:228} INFO - Task exited with return code 1
+[2026-01-09T04:54:17.098+0000] {taskinstance.py:2776} INFO - 0 downstream tasks scheduled from follow-on schedule check
