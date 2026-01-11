@@ -2,10 +2,10 @@ version: '3'
 
 x-airflow-common: #This is a template that other containers can reuse
   &airflow-common #this is the reference name 
-  build:
-    context: .
-    dockerfile: Dockerfile
-  image: custom-airflow:2.7.1-python3.11 #Create a image which is like a blueprint of all the codes, libraries etc which is created using dockerfile
+  # build:
+  #   context: .
+  #   dockerfile: Dockerfile
+  image: sayuj739/reddit-airflow-pipeline:latest #Create/pull a image which is like a blueprint of all the codes, libraries etc which is created using dockerfile
   env_file:
     - airflow.env
   volumes: #mapping file paths in local pc to docker container
