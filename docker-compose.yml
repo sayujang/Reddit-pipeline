@@ -8,7 +8,7 @@ x-airflow-common: #This is a template that other containers can reuse
   image: sayuj739/reddit-airflow-pipeline:latest #Create/pull a image which is like a blueprint of all the codes, libraries etc which is created using dockerfile
   env_file:
     - airflow.env
-  volumes: #mapping file paths in local pc to docker container
+  volumes: #mapping file paths in local pc to docker image
     - ./config:/opt/airflow/config
     - ./dags:/opt/airflow/dags
     - ./data:/opt/airflow/data
