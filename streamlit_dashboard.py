@@ -2,11 +2,11 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
-from sqlalchemy import create_engine
-import os
-from datetime import datetime, timedelta
+import boto3
+from io import StringIO
+from datetime import datetime
 from collections import Counter
-import re
+import os
 
 st.set_page_config(
     page_title="Nepal Gen Z Protest Sentiment Dashboard",
@@ -15,72 +15,148 @@ st.set_page_config(
 )
 
 @st.cache_resource
-def get_db_connection():
-    """Create database connection"""
-    db_host = os.getenv('POSTGRES_HOST', 'postgres')
-    db_port = os.getenv('POSTGRES_PORT', '5432')
-    db_name = 'airflow_reddit'
-    db_user = 'postgres'
-    db_password = 'postgres'
-    
-    connection_string = f'postgresql://{db_user}:{db_password}@{db_host}:{db_port}/{db_name}'
+def get_s3_client():
+    """Create S3 client with credentials from Streamlit secrets"""
+    try:
+        s3_client = boto3.client(
+            's3',
+            aws_access_key_id=st.secrets["AWS_ACCESS_KEY_ID"],
+            aws_secret_access_key=st.secrets["AWS_SECRET_ACCESS_KEY"],
+            region_name=st.secrets.get("AWS_REGION", "us-east-1")
+        )
+        return s3_client
+    except Exception as e:
+        st.error(f"Error creating S3 client: {str(e)}")
+        st.info("Please configure AWS credentials in Streamlit secrets (Settings > Secrets)")
+        return None
+
+def list_s3_files(bucket_name, prefix):
+    """List all files in S3 bucket with given prefix"""
+    s3_client = get_s3_client()
+    if s3_client is None:
+        return []
     
     try:
-        engine = create_engine(connection_string)
-        with engine.connect() as conn:
-            conn.execute("SELECT 1")
-        return engine
+        response = s3_client.list_objects_v2(
+            Bucket=bucket_name,
+            Prefix=prefix
+        )
+        
+        if 'Contents' not in response:
+            return []
+        
+        files = [obj['Key'] for obj in response['Contents'] if obj['Key'].endswith('.csv')]
+        return files
     except Exception as e:
-        st.error(f"Database connection error: {str(e)}")
+        st.error(f"Error listing S3 files: {str(e)}")
+        return []
+
+def download_csv_from_s3(bucket_name, file_key):
+    """Download CSV file from S3 and return as DataFrame"""
+    s3_client = get_s3_client()
+    if s3_client is None:
+        return None
+    
+    try:
+        response = s3_client.get_object(Bucket=bucket_name, Key=file_key)
+        content = response['Body'].read().decode('utf-8')
+        df = pd.read_csv(StringIO(content))
+        return df
+    except Exception as e:
+        st.error(f"Error downloading {file_key}: {str(e)}")
         return None
 
 @st.cache_data(ttl=300)
-def load_data(view_mode='realtime', days_back=7):
+def load_data_from_s3(bucket_name, view_mode='realtime', days_back=7, selected_phases=None):
     """
-    Load data from Postgres based on view mode
+    Load data from S3 based on view mode
     
     Args:
+        bucket_name: S3 bucket name
         view_mode: 'realtime', 'protest_phases', or 'all'
         days_back: For realtime mode only
+        selected_phases: List of phases to load for protest_phases mode
     """
-    engine = get_db_connection()
-    if engine is None:
+    all_dataframes = []
+    
+    if view_mode == 'realtime':
+        # List all realtime files (reddit_YYYYMMDD_processed.csv)
+        files = list_s3_files(bucket_name, 'processed/reddit_')
+        
+        # Filter by date range
+        cutoff_date = datetime.now().date()
+        start_date = cutoff_date - pd.Timedelta(days=days_back)
+        
+        for file_key in files:
+            # Extract date from filename: reddit_20251208_processed.csv -> 20251208
+            filename = file_key.split('/')[-1]
+            if filename.startswith('reddit_') and '_processed.csv' in filename:
+                try:
+                    date_str = filename.replace('reddit_', '').replace('_processed.csv', '')
+                    file_date = pd.to_datetime(date_str, format='%Y%m%d').date()
+                    
+                    if file_date >= start_date:
+                        df = download_csv_from_s3(bucket_name, file_key)
+                        if df is not None and len(df) > 0:
+                            # Add phase column if not exists
+                            if 'phase' not in df.columns:
+                                df['phase'] = 'realtime'
+                            all_dataframes.append(df)
+                except Exception as e:
+                    continue
+    
+    elif view_mode == 'protest_phases':
+        # Load phase files based on selected phases
+        if selected_phases is None:
+            selected_phases = ['before', 'during', 'after']
+        
+        for phase in selected_phases:
+            # List all files for this phase
+            phase_files = list_s3_files(bucket_name, f'processed/{phase}_phase_')
+            
+            # Get the most recent file for each phase
+            if phase_files:
+                # Sort by filename (which includes dates) and take the most recent
+                latest_file = sorted(phase_files)[-1]
+                df = download_csv_from_s3(bucket_name, latest_file)
+                if df is not None and len(df) > 0:
+                    # Ensure phase column exists
+                    if 'phase' not in df.columns:
+                        df['phase'] = phase
+                    all_dataframes.append(df)
+    
+    else:  # 'all'
+        # Load all processed files
+        files = list_s3_files(bucket_name, 'processed/')
+        for file_key in files:
+            df = download_csv_from_s3(bucket_name, file_key)
+            if df is not None and len(df) > 0:
+                # Infer phase from filename if not in columns
+                if 'phase' not in df.columns:
+                    filename = file_key.split('/')[-1]
+                    if 'before_phase' in filename:
+                        df['phase'] = 'before'
+                    elif 'during_phase' in filename:
+                        df['phase'] = 'during'
+                    elif 'after_phase' in filename:
+                        df['phase'] = 'after'
+                    else:
+                        df['phase'] = 'realtime'
+                all_dataframes.append(df)
+    
+    if not all_dataframes:
         return None
     
-    try:
-        if view_mode == 'realtime':
-            query = f"""
-            SELECT * FROM reddit_sentiment
-            WHERE phase = 'realtime'
-            AND processed_at >= NOW() - INTERVAL '{days_back} days'
-            ORDER BY created_utc DESC
-            """
-        elif view_mode == 'protest_phases':
-            query = """
-            SELECT * FROM reddit_sentiment
-            WHERE phase IN ('before', 'during', 'after')
-            ORDER BY created_utc
-            """
-        else:  # all
-            query = """
-            SELECT * FROM reddit_sentiment
-            ORDER BY created_utc DESC
-            """
-        
-        df = pd.read_sql(query, engine)
-        
-        if len(df) == 0:
-            return None
-            
-        if 'created_utc' in df.columns:
-            df['created_utc'] = pd.to_datetime(df['created_utc'])
-        if 'processed_at' in df.columns:
-            df['processed_at'] = pd.to_datetime(df['processed_at'])
-        
-        return df
-    except Exception as e:
-        st.error(f"Error loading data: {str(e)}")
-        return None
+    # Combine all dataframes
+    combined_df = pd.concat(all_dataframes, ignore_index=True)
+    
+    # Convert date columns
+    if 'created_utc' in combined_df.columns:
+        combined_df['created_utc'] = pd.to_datetime(combined_df['created_utc'])
+    if 'processed_at' in combined_df.columns:
+        combined_df['processed_at'] = pd.to_datetime(combined_df['processed_at'])
+    
+    return combined_df
 
 # Title
 st.title("🇳🇵 Nepal Gen Z Protest: Multi-Dimensional Sentiment Analysis")
@@ -89,19 +165,34 @@ This dashboard tracks the emotional pulse of Nepal's Gen Z protest movement thro
 Analyze sentiment evolution, emotional intensity, narrative framing, and community engagement.
 """)
 
-# Check connection
-if get_db_connection() is None:
-    st.error("❌ Cannot connect to database")
+# Check S3 connection
+if get_s3_client() is None:
+    st.error("❌ Cannot connect to AWS S3")
+    st.info("""
+    **To configure AWS credentials in Streamlit Cloud:**
+    1. Go to your app settings
+    2. Click on 'Secrets' in the left sidebar
+    3. Add the following in TOML format:
+    ```
+    AWS_ACCESS_KEY_ID = "your_access_key_id"
+    AWS_SECRET_ACCESS_KEY = "your_secret_access_key"
+    AWS_REGION = "us-east-1"
+    ```
+    """)
     st.stop()
+
+# Get bucket name from secrets or use default
+BUCKET_NAME = st.secrets.get("AWS_BUCKET_NAME", "reddit-s3")
 
 # ===== SIDEBAR WITH VIEW MODE =====
 st.sidebar.header("📊 View Mode")
 view_mode = st.sidebar.radio(
     "Select Data View",
-    options=['protest_phases', 'realtime'],
+    options=['protest_phases', 'realtime', 'all'],
     format_func=lambda x: {
         'protest_phases': '🔍 Protest Phase Analysis (Before/During/After)',
-        'realtime': '🕒 Real-time Data (Daily Updates)'
+        'realtime': '🕒 Real-time Data (Daily Updates)',
+        'all': '📚 All Data'
     }[x]
 )
 
@@ -126,28 +217,48 @@ if view_mode == 'protest_phases':
     
     days_back = None  # Not used for protest phases
     
-else:  # realtime
+elif view_mode == 'realtime':
     st.sidebar.header("⚙️ Time Filters")
     days_back = st.sidebar.slider("Days of recent data", 1, 30, 7)
     phases_to_show = None  # Not used for realtime
     
     st.sidebar.info("📌 **Real-time Analysis**: Track current sentiment trends from daily Reddit scraping")
 
+else:  # all
+    days_back = None
+    phases_to_show = None
+    st.sidebar.info("📌 **All Data**: View complete dataset from all sources")
+
 st.sidebar.markdown("---")
 st.sidebar.header("🎯 Content Filters")
 min_score = st.sidebar.number_input("Minimum post score", value=0)
 min_engagement = st.sidebar.slider("Minimum engagement weight", 0.0, 10.0, 0.0)
 
-# Load data based on view mode
-with st.spinner("Loading data..."):
-    df = load_data(view_mode=view_mode, days_back=days_back)
+# Load data from S3
+with st.spinner("Loading data from S3..."):
+    df = load_data_from_s3(
+        bucket_name=BUCKET_NAME,
+        view_mode=view_mode,
+        days_back=days_back,
+        selected_phases=phases_to_show
+    )
 
 if df is None or len(df) == 0:
-    st.warning(f"⚠️ No data available for {view_mode} mode. Please run the appropriate pipeline first.")
+    st.warning(f"⚠️ No data available for {view_mode} mode in S3 bucket '{BUCKET_NAME}'")
     if view_mode == 'protest_phases':
-        st.info("Run the **'process_protest_phase_data'** DAG from Airflow to process historical data")
+        st.info("Make sure the **'process_protest_phase_data'** DAG has been run and files are uploaded to S3")
     else:
-        st.info("Run the **'etl_reddit_pipeline_realtime'** DAG from Airflow for daily updates")
+        st.info("Make sure the **'etl_reddit_pipeline_realtime'** DAG is running and uploading files to S3")
+    
+    # Show available files
+    with st.expander("🔍 Debug: Show available files in S3"):
+        all_files = list_s3_files(BUCKET_NAME, 'processed/')
+        if all_files:
+            st.write("Files found in processed/ folder:")
+            for f in all_files:
+                st.text(f)
+        else:
+            st.write("No files found in processed/ folder")
     st.stop()
 
 # Filter by selected phases (for protest mode)
@@ -166,8 +277,10 @@ if len(df) == 0:
 # ===== PHASE INDICATOR =====
 if view_mode == 'protest_phases':
     st.info(f"📊 Analyzing **{len(df)} posts** across **{len(phases_to_show)} protest phase(s)**: {', '.join([p.title() for p in phases_to_show])}")
-else:
+elif view_mode == 'realtime':
     st.info(f"📊 Analyzing **{len(df)} posts** from the last **{days_back} days** of real-time data")
+else:
+    st.info(f"📊 Analyzing **{len(df)} posts** from all available data")
 
 # === KEY METRICS ===
 st.header("📊 Overview Metrics")
@@ -198,7 +311,7 @@ if view_mode == 'protest_phases':
                 total_comments = phase_df['num_comments'].sum()
                 st.metric("Comments", f"{total_comments:,}")
 else:
-    # Standard metrics for realtime
+    # Standard metrics for realtime/all
     col1, col2, col3, col4, col5 = st.columns(5)
     
     with col1:
@@ -390,7 +503,7 @@ if all(col in df.columns for col in emotion_cols):
                 color=avg_emotions.values,
                 color_continuous_scale=['green', 'yellow', 'red']
             )
-            st.plotly_chart(fig_emotions, use_container_width=True)
+            st.plotly_chart(fig, use_container_width=True)
     
     with col2:
         # Dominant emotion distribution
@@ -579,58 +692,3 @@ with st.expander("Click to see automated insights"):
                 insights.append(f"✅ Sentiment improved recently (from {first_half_sentiment:.2f} to {second_half_sentiment:.2f})")
             else:
                 insights.append(f"⚠️ Sentiment declined recently (from {first_half_sentiment:.2f} to {second_half_sentiment:.2f})")
-    
-    # Common insights
-    if 'dominant_emotion' in df.columns:
-        top_emotion = df['dominant_emotion'].mode()[0]
-        emotion_pct = (df['dominant_emotion'] == top_emotion).sum() / len(df) * 100
-        insights.append(f"😢 **{top_emotion.title()}** was the dominant emotion in {emotion_pct:.1f}% of posts")
-    
-    if 'narrative_frame' in df.columns:
-        top_narrative = df['narrative_frame'].mode()[0]
-        narrative_pct = (df['narrative_frame'] == top_narrative).sum() / len(df) * 100
-        insights.append(f"📰 **{top_narrative.replace('_', ' ').title()}** was the most common narrative ({narrative_pct:.1f}% of posts)")
-    
-    for insight in insights:
-        st.markdown(f"- {insight}")
-
-# === RAW DATA EXPLORER ===
-st.header("🔍 Data Explorer")
-
-with st.expander("View Raw Data"):
-    available_cols = df.columns.tolist()
-    default_cols = ['created_utc', 'title', 'sentiment', 'sentiment_score', 
-                    'dominant_emotion', 'narrative_frame', 'score', 'num_comments', 'phase']
-    default_cols = [col for col in default_cols if col in available_cols]
-    
-    selected_cols = st.multiselect(
-        "Select columns to display",
-        available_cols,
-        default=default_cols
-    )
-    
-    if selected_cols:
-        st.dataframe(df[selected_cols], use_container_width=True)
-        
-        csv = df.to_csv(index=False)
-        st.download_button(
-            label="📥 Download Dataset as CSV",
-            data=csv,
-            file_name=f"nepal_protest_sentiment_{view_mode}_{datetime.now().strftime('%Y%m%d')}.csv",
-            mime="text/csv"
-        )
-
-# Footer
-st.markdown("---")
-col1, col2, col3 = st.columns(3)
-with col1:
-    if 'processed_at' in df.columns:
-        last_update = df['processed_at'].max()
-        st.markdown(f"**Last updated:** {last_update.strftime('%Y-%m-%d %H:%M:%S')}")
-with col2:
-    st.markdown(f"**View Mode:** {view_mode.replace('_', ' ').title()}")
-with col3:
-    if view_mode == 'protest_phases':
-        st.markdown(f"**Phases Shown:** {', '.join([p.title() for p in phases_to_show])}")
-
-st.markdown("📊 Multi-dimensional sentiment analysis | Data from r/Nepal | Built with Streamlit & Airflow")

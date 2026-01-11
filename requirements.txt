@@ -5,3 +5,6 @@ boto3
 s3fs
 matplotlib
 seaborn
+plotly
+sqlalchemy        
+psycopg2-binary   
